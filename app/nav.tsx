@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import logo from "./images/tgt.png";
+import logo from "./icon.png";
 export default function Nav() {
 	return (
 		<nav className="h-16 w-screen bg-mantle rounded-md p-4 flex flex-row justify-between border border-mauve">
