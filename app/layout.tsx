@@ -19,9 +19,9 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body className={`${sans.variable} antialiased bg-base text-text h-screen flex flex-col`}>
+			<body className={`${sans.variable} antialiased bg-base text-text h-screen flex flex-col overflow-x-hidden`}>
 				<Nav />
-				<main>{children}</main>
+				<main className="mt-20">{children}</main>
 			</body>
 		</html>
 	);

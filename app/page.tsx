@@ -45,17 +45,17 @@ export default function Home() {
 	return (
 		<div className="p-2 flex flex-col text-md gap-2">
 			im a swift and typescript developer i guess
-			<h2 className="text-2xl font-bold text-mauve">random stuff and basic info</h2>
+			<h2 className="text-2xl font-bold text-mauve">Random stuff and basic info</h2>
 			<ul className="list-disc list-inside">
 				<li>religious sunni muslim</li>
-				<li>im in 8th grade</li>
+				<li>8th grade</li>
 				<li>just barely 14</li>
 				<li>chronic catppuccin mocha mauve addict</li>
 				<li>im in the exec board of my county's student council as the legislative affairs coordinator</li>
 				<li>i kinda enjoy biking</li>
 				<li>public infrastructure is interesting to me for no reason whatsoever</li>
 			</ul>
-			<h2 className="text-2xl font-bold text-mauve">stuff ive worked on</h2>
+			<h2 className="text-2xl font-bold text-mauve">Projects</h2>
 			<ul className="list-disc list-inside">
 				{projects.map((project) => (
 					<li key={project.name}>
@@ -73,7 +73,7 @@ export default function Home() {
 			them.
 			<br />I also am working on open source alternatives to edtech products used by schools such as smartpass and
 			various web filters.
-			<h2 className="text-2xl font-bold text-mauve">things i know</h2>
+			<h2 className="text-2xl font-bold text-mauve">Languages</h2>
 			<ul className="list-disc list-inside">
 				<li>JavaScript</li>
 				<li>TypeScript</li>
@@ -83,7 +83,7 @@ export default function Home() {
 				<li>Tailwind CSS</li>
 				<li>Swift</li>
 			</ul>
-			<h2 className="text-2xl font-bold text-mauve">contact me</h2>
+			<h2 className="text-2xl font-bold text-mauve">Contact</h2>
 			<ul className="list-disc list-inside">
 				{contact.map((c) => (
 					<li key={c.name}>
