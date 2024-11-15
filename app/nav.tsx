@@ -9,10 +9,10 @@ export default function Nav() {
 				<h1 className="text-2xl font-bold text-subtext0">tgt</h1>
 			</div>
 			<div className="flex flex-row gap-4 justify-center items-center">
-				<Link href="/" className="text-blue hover:text-sky font-bold">
+				<Link href="/" className="text-blue hover:text-sky font-bold active:text-red">
 					Home
 				</Link>
-				<Link href="https://github.com/incognitotgt" className="text-blue hover:text-sky font-bold">
+				<Link href="https://github.com/incognitotgt" className="text-blue hover:text-sky font-bold active:text-red">
 					GitHub
 				</Link>
 			</div>

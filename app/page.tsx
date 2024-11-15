@@ -89,7 +89,7 @@ export default function Home() {
 					<li key={c.name}>
 						<a
 							href={c.link}
-							className="text-blue hover:text-sky duration-200 font-semibold"
+							className="text-blue hover:text-sky active:text-red duration-200 font-semibold"
 							target="_blank"
 							rel="noreferrer noopener"
 						>
