@@ -8,14 +8,19 @@ export default function Home() {
 	}[] = [
 		{
 			name: "Stardust",
-			description: "isolated, disposable workspaces, kinda like kasm but oss",
+			description: "isolated, disposable workspaces",
 			link: "spaceness/stardust",
 		},
 		{
 			name: "schoology-frontend",
-			description: "alternative frontend for schoology that i work on sometimes",
+			description: "alternative frontend for schoology (wip)",
 			link: "incognitotgt/schoology-frontend",
 		},
+		{
+			name: "schoology-ios",
+			description: "better mobile app for schoology (wip)",
+			link: "incognitotgt/schoology-ios"
+		}
 	];
 	const contact: {
 		name: string;
@@ -69,10 +74,6 @@ export default function Home() {
 					</li>
 				))}
 			</ul>
-			I used to work on proxy sites a year ago but I don't find any reason to anymore, please don't bother me about
-			them.
-			<br />I also am working on open source alternatives to edtech products used by schools such as smartpass and
-			various web filters.
 			<h2 className="text-2xl font-bold text-mauve">Languages</h2>
 			<ul className="list-disc list-inside">
 				<li>JavaScript</li>
