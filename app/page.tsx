@@ -19,8 +19,8 @@ export default function Home() {
 		{
 			name: "schoology-ios",
 			description: "better mobile app for schoology (wip)",
-			link: "incognitotgt/schoology-ios"
-		}
+			link: "incognitotgt/schoology-ios",
+		},
 	];
 	const contact: {
 		name: string;

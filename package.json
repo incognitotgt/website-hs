@@ -9,6 +9,7 @@
 		"check": "biome check --write ."
 	},
 	"dependencies": {
+		"ip-range-check": "^0.2.0",
 		"lucide-react": "^0.454.0",
 		"next": "15.0.3-canary.8",
 		"react": "19.0.0-rc-7c8e5e7a-20241101",
