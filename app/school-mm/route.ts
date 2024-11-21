@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
 	const rangeArray = process.env.SCHOOL_CIDR_RANGES.split(",");
 	for (const range of rangeArray) {
 		try {
-			if (req.headers.get("x-forwarded-for")?.includes(range)) {
+			if (req.headers.get("x-real-ip")?.includes(range)) {
 				const teamName = req.nextUrl.searchParams.get("name") || process.env.MATTERMOST_TEAM_NAME;
 				const teams = await fetch(`https://${process.env.MATTERMOST_HOST}/api/v4/users/me/teams`, {
 					headers: { Authorization: `Bearer ${process.env.MATTERMOST_TOKEN}` },
