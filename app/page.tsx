@@ -52,10 +52,11 @@ export default function Home() {
 			im a swift and typescript developer i guess
 			<h2 className="text-2xl font-bold text-mauve">Random stuff and basic info</h2>
 			<ul className="list-disc list-inside">
-				<li>religious sunni muslim</li>
+				<li>sunni muslim</li>
 				<li>8th grade</li>
 				<li>just barely 14</li>
 				<li>chronic catppuccin mocha mauve addict</li>
+				<li>school muslim student association president</li>
 				<li>im in the exec board of my county's student council as the legislative affairs coordinator</li>
 				<li>i kinda enjoy biking</li>
 				<li>public infrastructure is interesting to me for no reason whatsoever</li>
