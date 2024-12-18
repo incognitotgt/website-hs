@@ -49,7 +49,7 @@ export default function Home() {
 	];
 	return (
 		<div className="p-2 flex flex-col text-md gap-2">
-			im a swift and typescript developer i guess
+			im mashoor but i go by tgt online, idk thats all you need to know
 			<h2 className="text-2xl font-bold text-mauve">Random stuff and basic info</h2>
 			<ul className="list-disc list-inside">
 				<li>sunni muslim</li>
