@@ -22,6 +22,7 @@ export async function GET(req: NextRequest) {
 				302,
 			);
 		}
+		return Response.json({ error: "try to open this link in school" }, { status: 401 });
 	} catch (e) {
 		console.error(e);
 		return Response.json({ error: "Failed to fetch team" }, { status: 500 });

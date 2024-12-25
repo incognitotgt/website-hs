@@ -1,5 +1,5 @@
 import { type LucideIcon, Mail, MapPin } from "lucide-react";
-import { Discord, GitHub } from "./icons";
+import { Bluesky, Discord, GitHub, Instagram } from "./icons";
 export default function Home() {
 	const projects: {
 		name: string;
@@ -46,19 +46,40 @@ export default function Home() {
 			display: "@incognitotgt",
 			Icon: GitHub,
 		},
+		{
+			name: "Instagram",
+			link: "https://instagram.com/sudormrf_",
+			display: "@sudormrf_",
+			Icon: Instagram,
+		},
+		{
+			name: "Bluesky",
+			link: "https://bsky.app/profile/incognitotgt.me",
+			display: "@incognitotgt.me",
+			Icon: Bluesky,
+		},
 	];
 	return (
 		<div className="p-2 flex flex-col text-md gap-2">
-			im mashoor but i go by tgt online, idk thats all you need to know
+			I'm Mashoor, a fullstack web developer.
+			<section>
+				I'm one of the owners and founders of{" "}
+				<a
+					href="https://github.com/spaceness"
+					className="text-blue font-bold active:text-red hover:text-sky duration-150"
+				>
+					spaceness
+				</a>{" "}
+				where i make a lot of cool projects with others.
+			</section>
 			<h2 className="text-2xl font-bold text-mauve">Random stuff and basic info</h2>
 			<ul className="list-disc list-inside">
+				<li>14</li>
 				<li>sunni muslim</li>
 				<li>8th grade</li>
-				<li>just barely 14</li>
-				<li>chronic catppuccin mocha mauve addict</li>
 				<li>school muslim student association president</li>
-				<li>im in the exec board of my county's student council as the legislative affairs coordinator</li>
-				<li>i kinda enjoy biking</li>
+				<li>exec board of my county's student council as the legislative affairs coordinator</li>
+				<li>i enjoy biking</li>
 				<li>public infrastructure is interesting to me for no reason whatsoever</li>
 			</ul>
 			<h2 className="text-2xl font-bold text-mauve">Projects</h2>
@@ -88,7 +109,7 @@ export default function Home() {
 			<h2 className="text-2xl font-bold text-mauve">Contact</h2>
 			<ul className="list-disc list-inside">
 				{contact.map((c) => (
-					<li key={c.name}>
+					<li key={c.name} aria-label={c.name}>
 						<a
 							href={c.link}
 							className="text-blue hover:text-sky active:text-red duration-200 font-semibold"

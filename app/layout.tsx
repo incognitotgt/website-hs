@@ -21,8 +21,8 @@ export default function RootLayout({
 		<html lang="en">
 			<body className={`${sans.variable} antialiased bg-base text-text h-screen flex flex-col overflow-x-hidden`}>
 				<Nav />
-				<main className="mt-20">{children}</main>
-				<footer className="flex flex-row gap-2 mt-6 *:duration-200">
+				<main className="mt-20 p-2">{children}</main>
+				<footer className="flex flex-row gap-2 mt-6 *:duration-200 p-2">
 					<a href="https://ctp-webr.ing/tgt/previous" className="text-mauve hover:text-mauve/75 active:text-red">
 						<ArrowLeft />
 					</a>
