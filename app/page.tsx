@@ -1,20 +1,30 @@
-import { type LucideIcon, Mail, MapPin } from "lucide-react";
+import { Card } from "fumadocs-ui/components/card";
+import { type LucideIcon, Mail, MapPin, Rocket, Sparkles } from "lucide-react";
 import { Bluesky, Discord, GitHub, Instagram } from "./icons";
+type Contact = {
+	name: string;
+	link: string;
+	display: string;
+	Icon: React.FC<React.SVGProps<SVGSVGElement>> | LucideIcon;
+};
 export default function Home() {
 	const projects: {
 		name: string;
 		description: string;
 		link: string;
+		Icon?: React.FC<React.SVGProps<SVGSVGElement>> | LucideIcon;
 	}[] = [
 		{
 			name: "Stardust",
 			description: "isolated, disposable workspaces",
 			link: "spaceness/stardust",
+			Icon: Sparkles,
 		},
 		{
 			name: "schoology-frontend",
 			description: "alternative frontend for schoology (wip)",
 			link: "incognitotgt/schoology-frontend",
+			Icon: Rocket,
 		},
 		{
 			name: "schoology-ios",
@@ -22,12 +32,7 @@ export default function Home() {
 			link: "incognitotgt/schoology-ios",
 		},
 	];
-	const contact: {
-		name: string;
-		link: string;
-		display: string;
-		Icon: React.FC<React.SVGProps<SVGSVGElement>> | LucideIcon;
-	}[] = [
+	const contact: Contact[] = [
 		{
 			name: "Email",
 			link: "mailto:tgt@incognitotgt.me",
@@ -43,19 +48,19 @@ export default function Home() {
 		{
 			name: "GitHub",
 			link: "https://github.com/incognitotgt",
-			display: "@incognitotgt",
+			display: "incognitotgt",
 			Icon: GitHub,
 		},
 		{
 			name: "Instagram",
 			link: "https://instagram.com/sudormrf_",
-			display: "@sudormrf_",
+			display: "sudormrf_",
 			Icon: Instagram,
 		},
 		{
 			name: "Bluesky",
 			link: "https://bsky.app/profile/incognitotgt.me",
-			display: "@incognitotgt.me",
+			display: "incognitotgt.me",
 			Icon: Bluesky,
 		},
 	];
@@ -69,8 +74,7 @@ export default function Home() {
 					className="text-blue font-bold active:text-red hover:text-sky duration-150"
 				>
 					spaceness
-				</a>{" "}
-				where i make a lot of cool projects with others.
+				</a>
 			</section>
 			<h2 className="text-2xl font-bold text-mauve">Random stuff and basic info</h2>
 			<ul className="list-disc list-inside">
@@ -83,19 +87,17 @@ export default function Home() {
 				<li>public infrastructure is interesting to me for no reason whatsoever</li>
 			</ul>
 			<h2 className="text-2xl font-bold text-mauve">Projects</h2>
-			<ul className="list-disc list-inside">
-				{projects.map((project) => (
-					<li key={project.name}>
-						<a
-							href={`https://github.com/${project.link}`}
-							className="text-blue font-bold active:text-red hover:text-sky duration-150"
-						>
-							{project.name}
-						</a>
-						<div className="text-sm">{project.description}</div>
-					</li>
+			<div className="flex flex-col md:grid grid-cols-3 w-5/6 md:w-1/2 gap-2">
+				{projects.map(({ Icon, ...project }) => (
+					<Card
+						title={project.name}
+						description={project.description}
+						href={`https://github.com/${project.link}`}
+						key={project.name}
+						icon={Icon && <Icon />}
+					/>
 				))}
-			</ul>
+			</div>
 			<h2 className="text-2xl font-bold text-mauve">Languages</h2>
 			<ul className="list-disc list-inside">
 				<li>JavaScript</li>
@@ -107,25 +109,12 @@ export default function Home() {
 				<li>Swift</li>
 			</ul>
 			<h2 className="text-2xl font-bold text-mauve">Contact</h2>
-			<ul className="list-disc list-inside">
-				{contact.map((c) => (
-					<li key={c.name} aria-label={c.name}>
-						<a
-							href={c.link}
-							className="text-blue hover:text-sky active:text-red duration-200 font-semibold"
-							target="_blank"
-							rel="noreferrer noopener"
-						>
-							<c.Icon className="inline-block w-5 h-5 mr-1" />
-							{c.display}
-						</a>
-					</li>
+			<div className="flex flex-col md:grid grid-cols-3 w-5/6 md:w-1/2 gap-2">
+				{contact.map(({ name, display, link, Icon }) => (
+					<Card title={name} description={display} href={link} icon={<Icon className="size-6" />} key={name} />
 				))}
-				<li>
-					<MapPin className="inline-block w-5 h-5 mr-1" />
-					Baltimore, MD
-				</li>
-			</ul>
+				<Card title="Location" description="Baltimore, MD, USA" icon={<MapPin />} />
+			</div>
 		</div>
 	);
 }
