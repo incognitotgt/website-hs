@@ -11,7 +11,7 @@ export function DiscordStatus() {
 		data: { data: status } = {},
 	} = useLanyard({
 		userId: "1053443057451794585",
-		apiUrl: `${process.env.NODE_ENV === "production" ? "incognitotgt.me" : "localhost:3000"}/lanyard`,
+		apiUrl: `${process.env.NODE_ENV === "production" ? "www.incognitotgt.me" : "localhost:3000"}/lanyard`,
 	});
 	if (isLoading || isValidating || !status) return <div className="animate-pulse rounded-md bg-muted w-80 h-40" />;
 	const avatarUrl = `https://cdn.discordapp.com/avatars/${status.discord_user.id}/${status.discord_user.avatar}.png`;
