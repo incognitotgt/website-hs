@@ -51,10 +51,10 @@ export function DiscordStatus() {
 								{gameActivity.name}: {gameActivity.details}
 							</p>
 							{gameActivity.timestamps ? (
-								<div className="flex flex-row gap-2 items-center">
+								<>
 									<Clock className="size-4" />
 									<p>{formatElapsedTime(gameActivity.timestamps.start)}</p>
-								</div>
+								</>
 							) : null}
 						</>
 					) : (
