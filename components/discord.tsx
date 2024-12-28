@@ -1,7 +1,7 @@
 "use client";
 
 import { Card } from "fumadocs-ui/components/card";
-import { Clock, Code, User } from "lucide-react";
+import { CircleDashed, Clock, Code, MessageCircle } from "lucide-react";
 import Image from "next/image";
 import { type LanyardData, useLanyard } from "react-use-lanyard";
 export function DiscordStatus() {
@@ -39,24 +39,31 @@ export function DiscordStatus() {
 			<div className="flex flex-col gap-2">
 				{customStatus ? (
 					<div className="flex flex-row gap-2 items-center">
-						<User className="size-4" />
+						<MessageCircle className="size-4" />
 						<p className="truncate">{customStatus.state}</p>
 					</div>
 				) : null}
-				{gameActivity ? (
-					<div className="flex flex-row gap-2 items-center">
-						<Code className="size-4" />
-						<p className="truncate">
-							{gameActivity.name}: {gameActivity.details}
-						</p>
-						{gameActivity.timestamps ? (
-							<div className="flex flex-row gap-2 items-center">
-								<Clock className="size-4" />
-								<p>{formatElapsedTime(gameActivity.timestamps.start)}</p>
-							</div>
-						) : null}
-					</div>
-				) : null}
+				<div className="flex flex-row gap-2 items-center">
+					{gameActivity ? (
+						<>
+							<Code className="size-4" />
+							<p className="truncate">
+								{gameActivity.name}: {gameActivity.details}
+							</p>
+							{gameActivity.timestamps ? (
+								<div className="flex flex-row gap-2 items-center">
+									<Clock className="size-4" />
+									<p>{formatElapsedTime(gameActivity.timestamps.start)}</p>
+								</div>
+							) : null}
+						</>
+					) : (
+						<>
+							<CircleDashed className="size-4" />
+							<p>No activity right now</p>
+						</>
+					)}
+				</div>
 			</div>
 		</Card>
 	);
