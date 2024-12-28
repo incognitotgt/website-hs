@@ -66,9 +66,8 @@ export default function Home() {
 	];
 	return (
 		<div className="p-2 flex flex-col text-md gap-2">
-			I'm Mashoor, a fullstack web developer.
 			<section>
-				I'm one of the owners and founders of{" "}
+				I'm Mashoor, a fullstack web developer. I'm one of the owners and founders of{" "}
 				<a
 					href="https://github.com/spaceness"
 					className="text-blue font-bold active:text-red hover:text-sky duration-150"
@@ -76,44 +75,58 @@ export default function Home() {
 					spaceness
 				</a>
 			</section>
-			<h2 className="text-2xl font-bold text-mauve">Random stuff and basic info</h2>
-			<ul className="list-disc list-inside">
-				<li>14</li>
-				<li>sunni muslim</li>
-				<li>8th grade</li>
-				<li>school muslim student association president</li>
-				<li>exec board of my county's student council as the legislative affairs coordinator</li>
-				<li>i enjoy biking</li>
-				<li>public infrastructure is interesting to me for no reason whatsoever</li>
-			</ul>
-			<h2 className="text-2xl font-bold text-mauve">Projects</h2>
-			<div className="flex flex-col md:grid grid-cols-3 w-5/6 md:w-1/2 gap-2">
-				{projects.map(({ Icon, ...project }) => (
-					<Card
-						title={project.name}
-						description={project.description}
-						href={`https://github.com/${project.link}`}
-						key={project.name}
-						icon={Icon && <Icon />}
-					/>
-				))}
-			</div>
-			<h2 className="text-2xl font-bold text-mauve">Languages</h2>
-			<ul className="list-disc list-inside">
-				<li>JavaScript</li>
-				<li>TypeScript</li>
-				<li>ReactJS</li>
-				<li>NextJS</li>
-				<li>Astro</li>
-				<li>Tailwind CSS</li>
-				<li>Swift</li>
-			</ul>
-			<h2 className="text-2xl font-bold text-mauve">Contact</h2>
-			<div className="flex flex-col md:grid grid-cols-3 w-5/6 md:w-1/2 gap-2">
-				{contact.map(({ name, display, link, Icon }) => (
-					<Card title={name} description={display} href={link} icon={<Icon className="size-6" />} key={name} />
-				))}
-				<Card title="Location" description="Baltimore, MD, USA" icon={<MapPin />} />
+			<div className="flex w-full md:flex-row flex-col">
+				<section className="md:w-1/2 flex flex-col gap-2">
+					<h2 className="text-2xl font-bold text-mauve">Random stuff and basic info</h2>
+					<ul className="list-disc list-inside">
+						<li>14</li>
+						<li>sunni muslim</li>
+						<li>8th grade</li>
+						<li>school muslim student association president</li>
+						<li>exec board of my county's student council as the legislative affairs coordinator</li>
+						<li>i enjoy biking</li>
+						<li>public infrastructure is interesting to me for no reason whatsoever</li>
+					</ul>
+					<h2 className="text-2xl font-bold text-mauve">Projects</h2>
+					<div className="flex flex-wrap gap-2">
+						{projects.map(({ Icon, ...project }) => (
+							<Card
+								className="w-56"
+								title={project.name}
+								description={project.description}
+								href={`https://github.com/${project.link}`}
+								key={project.name}
+								icon={Icon && <Icon />}
+							/>
+						))}
+					</div>
+				</section>
+				<section className="md:w-1/2 flex flex-col gap-2">
+					<h2 className="text-2xl font-bold text-mauve">Languages</h2>
+					<ul className="list-disc list-inside">
+						<li>JavaScript</li>
+						<li>TypeScript</li>
+						<li>ReactJS</li>
+						<li>NextJS</li>
+						<li>Astro</li>
+						<li>Tailwind CSS</li>
+						<li>Swift</li>
+					</ul>
+					<h2 className="text-2xl font-bold text-mauve">Contact</h2>
+					<div className="flex flex-wrap gap-2">
+						{contact.map(({ name, display, link, Icon }) => (
+							<Card
+								className="w-56"
+								title={name}
+								description={display}
+								href={link}
+								icon={<Icon className="size-6" />}
+								key={name}
+							/>
+						))}
+						<Card className="w-56" title="Location" description="Baltimore, MD, USA" icon={<MapPin />} />
+					</div>
+				</section>
 			</div>
 		</div>
 	);
