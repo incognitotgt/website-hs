@@ -1,5 +1,7 @@
+import { DiscordStatus } from "@/components/discord";
 import { Card } from "fumadocs-ui/components/card";
 import { type LucideIcon, Mail, MapPin, Rocket, Sparkles } from "lucide-react";
+import { Suspense } from "react";
 import { Bluesky, Discord, GitHub, Instagram } from "./icons";
 type Contact = {
 	name: string;
@@ -102,14 +104,13 @@ export default function Home() {
 					</div>
 				</section>
 				<section className="md:w-1/2 flex flex-col gap-2">
-					<h2 className="text-2xl font-bold text-mauve">Languages</h2>
+					<h2 className="text-2xl font-bold text-mauve">Languages/stack</h2>
 					<ul className="list-disc list-inside">
 						<li>JavaScript</li>
 						<li>TypeScript</li>
-						<li>ReactJS</li>
-						<li>NextJS</li>
+						<li>React</li>
+						<li>Next.js</li>
 						<li>Astro</li>
-						<li>Tailwind CSS</li>
 						<li>Swift</li>
 					</ul>
 					<h2 className="text-2xl font-bold text-mauve">Contact</h2>
@@ -128,6 +129,11 @@ export default function Home() {
 					</div>
 				</section>
 			</div>
+			<hr />
+			<h2 className="text-2xl font-bold text-mauve">Activity</h2>
+			<Suspense fallback={<div className="animate-pulse rounded-md bg-fd-muted w-80 h-40" />}>
+				<DiscordStatus />
+			</Suspense>
 		</div>
 	);
 }

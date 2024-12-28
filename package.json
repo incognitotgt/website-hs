@@ -16,6 +16,7 @@
 		"next": "15.1.1-canary.21",
 		"react": "19.0.0-rc-7c8e5e7a-20241101",
 		"react-dom": "19.0.0-rc-7c8e5e7a-20241101",
+		"react-use-lanyard": "^0.3.2",
 		"tailwind-merge": "^2.6.0",
 		"tailwindcss-animate": "^1.0.7"
 	},
