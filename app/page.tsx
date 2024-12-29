@@ -1,4 +1,4 @@
-import { DiscordStatus } from "@/components/discord";
+import { DiscordStatus, SuspenseFallback } from "@/components/discord";
 import { Card } from "fumadocs-ui/components/card";
 import { type LucideIcon, Mail, MapPin, Rocket, Sparkles } from "lucide-react";
 import { Suspense } from "react";
@@ -79,7 +79,7 @@ export default function Home() {
 			</section>
 			<div className="flex w-full md:flex-row flex-col">
 				<section className="md:w-1/2 flex flex-col gap-2">
-					<h2 className="text-2xl font-bold text-mauve">Random stuff and basic info</h2>
+					<h2 className="text-2xl font-bold text-mauve">random stuff and basic info</h2>
 					<ul className="list-disc list-inside">
 						<li>14</li>
 						<li>sunni muslim</li>
@@ -89,7 +89,7 @@ export default function Home() {
 						<li>i enjoy biking</li>
 						<li>public infrastructure is interesting to me for no reason whatsoever</li>
 					</ul>
-					<h2 className="text-2xl font-bold text-mauve">Projects</h2>
+					<h2 className="text-2xl font-bold text-mauve">projects</h2>
 					<div className="flex flex-wrap gap-2">
 						{projects.map(({ Icon, ...project }) => (
 							<Card
@@ -104,7 +104,7 @@ export default function Home() {
 					</div>
 				</section>
 				<section className="md:w-1/2 flex flex-col gap-2">
-					<h2 className="text-2xl font-bold text-mauve">Languages/stack</h2>
+					<h2 className="text-2xl font-bold text-mauve">languages/stack</h2>
 					<ul className="list-disc list-inside">
 						<li>JavaScript</li>
 						<li>TypeScript</li>
@@ -113,7 +113,7 @@ export default function Home() {
 						<li>Astro</li>
 						<li>Swift</li>
 					</ul>
-					<h2 className="text-2xl font-bold text-mauve">Contact</h2>
+					<h2 className="text-2xl font-bold text-mauve">contact</h2>
 					<div className="flex flex-wrap gap-2">
 						{contact.map(({ name, display, link, Icon }) => (
 							<Card
@@ -130,8 +130,8 @@ export default function Home() {
 				</section>
 			</div>
 			<hr />
-			<h2 className="text-2xl font-bold text-mauve">Activity</h2>
-			<Suspense fallback={<div className="animate-pulse rounded-md bg-fd-muted w-80 h-40" />}>
+			<h2 className="text-2xl font-bold text-mauve">activity</h2>
+			<Suspense fallback={<SuspenseFallback />}>
 				<DiscordStatus />
 			</Suspense>
 		</div>

@@ -4,6 +4,10 @@ import { Card } from "fumadocs-ui/components/card";
 import { CircleDashed, Clock, Code, MessageCircle } from "lucide-react";
 import Image from "next/image";
 import { type LanyardData, useLanyard } from "react-use-lanyard";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
+export const SuspenseFallback = () => (
+	<div className="rounded-md bg-fd-muted w-80 h-40 flex justify-center items-center border">loading...</div>
+);
 export function DiscordStatus() {
 	const {
 		isLoading,
@@ -13,28 +17,37 @@ export function DiscordStatus() {
 		userId: "1053443057451794585",
 		apiUrl: `${process.env.NODE_ENV === "production" ? "www.incognitotgt.me" : "localhost:3000"}/lanyard`,
 	});
-	if (isLoading || isValidating || !status) return <div className="animate-pulse rounded-md bg-muted w-80 h-40" />;
-	const avatarUrl = `https://cdn.discordapp.com/avatars/${status.discord_user.id}/${status.discord_user.avatar}.png`;
+	if (isLoading || isValidating || !status) return <SuspenseFallback />;
 	const customStatus = status.activities.find((activity) => activity.type === 4);
 	const gameActivity = status.activities.find((activity) => activity.type === 0);
 	const statusClassMap: Record<LanyardData["discord_status"], string> = {
-		online: "border-green",
-		idle: "border-yellow",
-		dnd: "border-red",
-		offline: "border-subtext2",
+		online: "text-green",
+		idle: "text-yellow",
+		dnd: "text-red",
+		offline: "text-subtext2",
 	};
 	return (
 		<Card
 			className="w-80 h-40"
 			title={`${status.discord_user.global_name} (${status.discord_user.username})`}
 			icon={
-				<Image
-					src={avatarUrl}
-					width={32}
-					height={32}
-					className={`rounded-full border ${statusClassMap[status.discord_status]}`}
-					alt="Discord avatar"
-				/>
+				<Tooltip>
+					<TooltipTrigger className="relative block">
+						<Image
+							src={`https://cdn.discordapp.com/avatars/${status.discord_user.id}/${status.discord_user.avatar}.png`}
+							width={32}
+							height={32}
+							className="rounded-full border"
+							alt="Discord avatar"
+						/>
+						<span
+							className={`absolute bottom-1 right-1 transform translate-x-1/2 translate-y-1/2 ${statusClassMap[status.discord_status]}`}
+						>
+							●
+						</span>
+					</TooltipTrigger>
+					<TooltipContent>{status.discord_status}</TooltipContent>
+				</Tooltip>
 			}
 		>
 			<div className="flex flex-col gap-2">
@@ -61,7 +74,7 @@ export function DiscordStatus() {
 					) : (
 						<>
 							<CircleDashed className="size-4" />
-							<p>No activity right now</p>
+							<p>Not doing anything</p>
 						</>
 					)}
 				</div>

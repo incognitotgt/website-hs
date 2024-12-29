@@ -1,6 +1,7 @@
 import catppuccin from "@catppuccin/tailwindcss";
 import { createPreset } from "fumadocs-ui/tailwind-plugin";
 import type { Config } from "tailwindcss";
+import animate from "tailwindcss-animate";
 export default {
 	content: [
 		"./app/**/*.{js,ts,jsx,tsx,mdx}",
@@ -11,6 +12,7 @@ export default {
 		catppuccin({
 			defaultFlavour: "mocha",
 		}),
+		animate,
 	],
 	presets: [createPreset({ preset: "catppuccin", addGlobalColors: true })],
 	theme: {
