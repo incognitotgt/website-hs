@@ -125,3 +125,54 @@ export function Swift(props: Props) {
 		</svg>
 	);
 }
+
+export function SolidJS(props: Props) {
+	return (
+		<svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} {...props}>
+			<title>SolidJS</title>
+			<path
+				fill="none"
+				stroke="#89b4fa"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+				d="M1.5 11.575C4.534 13.525 6.7 14.5 8 14.5c1.625 0 2.6-.975 2.6-2.275 0-1.3-.975-2.275-2.6-2.275-1.3 0-3.466.541-6.5 1.625z"
+			/>
+			<path
+				fill="none"
+				stroke="#89b4fa"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+				d="M3.45 8.975c3.034-1.084 5.2-1.625 6.5-1.625 1.625 0 2.6.975 2.6 2.275 0 .48-.133.915-.382 1.274l-1.874 2.486m4.206-8.96C11.9 2.475 9.3 1.5 8 1.5c-1.326 0-1.702.301-2.222 1.004M1.5 11.575l1.95-2.6m11.05-4.55-1.95 2.6m-6.772-4.52-1.92 2.411"
+			/>
+			<path
+				fill="none"
+				stroke="#89b4fa"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+				d="M5.02 8.43c-.981-.31-1.57-.961-1.57-2.055 0-1.625.975-2.275 2.6-2.275 1.097 0 3.307.694 5.329 2.083a74.594 74.594 0 0 1 1.171.842l-1.496.51"
+			/>
+		</svg>
+	);
+}
+
+export function Java(props: Props) {
+	return (
+		<svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} {...props}>
+			<title>Java</title>
+			<g fill="none" strokeLinecap="round" strokeLinejoin="round">
+				<path
+					stroke="#cdd6f4"
+					d="M10.73 8.41c.57 3 1.59 5.83 2.77 7.09-6.63-3.45-9.76-1.75-10.5 0-.66-3.4-.54-5.74.09-7.78"
+				/>
+				<path
+					stroke="#f38ba8"
+					d="M8.5 7c.63.34 1.82 1.07 2.24 1.41-.54-2.9-.64-5.96-.74-7.91-2.13.58-5.73 1.98-6.9 7.22.52-.69 1.72-1.05 2.4-1.22"
+				/>
+				<path
+					stroke="#f38ba8"
+					d="M5.5 7A1.5 1.5 0 0 0 7 8.5 1.5 1.5 0 0 0 8.5 7 1.5 1.5 0 0 0 7 5.5 1.5 1.5 0 0 0 5.5 7"
+				/>
+			</g>
+		</svg>
+	);
+}

@@ -1,9 +1,22 @@
 import { DiscordStatus, SuspenseFallback } from "@/components/discord";
 import { StackProgress } from "@/components/stack-progress";
 import { Card } from "fumadocs-ui/components/card";
-import { type LucideIcon, Mail, MapPin, Rocket, Sparkles } from "lucide-react";
+import { LayoutGrid, type LucideIcon, Mail, MapPin, Rocket, Sparkles } from "lucide-react";
 import { Suspense } from "react";
-import { Astro, Bluesky, Discord, GitHub, Instagram, JavaScript, NextJS, ReactJS, Swift, TypeScript } from "./icons";
+import {
+	Astro,
+	Bluesky,
+	Discord,
+	GitHub,
+	Instagram,
+	Java,
+	JavaScript,
+	NextJS,
+	ReactJS,
+	SolidJS,
+	Swift,
+	TypeScript,
+} from "./icons";
 type Contact = {
 	name: string;
 	link: string;
@@ -33,6 +46,7 @@ export default function Home() {
 			name: "schoology-ios",
 			description: "better mobile app for schoology (wip)",
 			link: "incognitotgt/schoology-ios",
+			Icon: LayoutGrid,
 		},
 	];
 	const contact: Contact[] = [
@@ -86,9 +100,9 @@ export default function Home() {
 						<li>sunni muslim</li>
 						<li>8th grade</li>
 						<li>school muslim student association president</li>
-						<li>exec board of my county's student council as the legislative affairs coordinator</li>
-						<li>i enjoy biking</li>
+						<li>county student council legislative affairs coordinator</li>
 						<li>public infrastructure is interesting to me for no reason whatsoever</li>
+						<li>cyclist</li>
 					</ul>
 					<h2 className="text-2xl font-bold text-mauve">projects</h2>
 					<div className="flex flex-wrap gap-2">
@@ -113,6 +127,8 @@ export default function Home() {
 						<StackProgress title="Next.js" progress={97} Icon={NextJS} />
 						<StackProgress title="Astro" progress={80} Icon={Astro} />
 						<StackProgress title="Swift" progress={50} Icon={Swift} />
+						<StackProgress title="SolidJS" progress={60} Icon={SolidJS} />
+						<StackProgress title="yapping" progress={100} Icon={Java} />
 					</div>
 					<h2 className="text-2xl font-bold text-mauve">contact</h2>
 					<div className="flex flex-wrap gap-2">

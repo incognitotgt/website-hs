@@ -7,8 +7,8 @@ export function StackProgress({
 }: { title: string; progress: number; Icon: React.FC<React.SVGProps<SVGSVGElement>> }) {
 	return (
 		<div className="flex flex-col justify-center items-start">
-			<span className="text-lg font-extrabold">
-				<Icon className="size-6 inline mr-2" />
+			<span className="text-lg inline-flex items-center">
+				<Icon className="inline mr-2" />
 				{title}
 			</span>
 			<Progress value={progress} className="min-w-1/2 -z-10" />
