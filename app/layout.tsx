@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { Doto } from "next/font/google";
 import "./globals.css";
 import Nav from "./nav";
-const sans = Doto({ variable: "--font-sans" });
+const sans = Doto({ variable: "--font-sans", subsets: ["latin"] });
 export const metadata: Metadata = {
 	title: "tgt",
 	description: "my personal portfolio",
