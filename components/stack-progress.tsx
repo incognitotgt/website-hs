@@ -11,7 +11,7 @@ export function StackProgress({
 				<Icon className="size-6 inline mr-2" />
 				{title}
 			</span>
-			<Progress value={progress} className="min-w-1/2" />
+			<Progress value={progress} className="min-w-1/2 -z-10" />
 		</div>
 	);
 }
