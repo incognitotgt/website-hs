@@ -1,8 +1,9 @@
 import { DiscordStatus, SuspenseFallback } from "@/components/discord";
+import { StackProgress } from "@/components/stack-progress";
 import { Card } from "fumadocs-ui/components/card";
 import { type LucideIcon, Mail, MapPin, Rocket, Sparkles } from "lucide-react";
 import { Suspense } from "react";
-import { Bluesky, Discord, GitHub, Instagram } from "./icons";
+import { Astro, Bluesky, Discord, GitHub, Instagram, JavaScript, NextJS, ReactJS, Swift, TypeScript } from "./icons";
 type Contact = {
 	name: string;
 	link: string;
@@ -105,14 +106,14 @@ export default function Home() {
 				</section>
 				<section className="md:w-1/2 flex flex-col gap-2">
 					<h2 className="text-2xl font-bold text-mauve">languages/stack</h2>
-					<ul className="list-disc list-inside">
-						<li>JavaScript</li>
-						<li>TypeScript</li>
-						<li>React</li>
-						<li>Next.js</li>
-						<li>Astro</li>
-						<li>Swift</li>
-					</ul>
+					<div className="grid grid-cols-2 w-full gap-2">
+						<StackProgress title="JavaScript" progress={80} Icon={JavaScript} />
+						<StackProgress title="TypeScript" progress={85} Icon={TypeScript} />
+						<StackProgress title="React" progress={95} Icon={ReactJS} />
+						<StackProgress title="Next.js" progress={97} Icon={NextJS} />
+						<StackProgress title="Astro" progress={80} Icon={Astro} />
+						<StackProgress title="Swift" progress={50} Icon={Swift} />
+					</div>
 					<h2 className="text-2xl font-bold text-mauve">contact</h2>
 					<div className="flex flex-wrap gap-2">
 						{contact.map(({ name, display, link, Icon }) => (

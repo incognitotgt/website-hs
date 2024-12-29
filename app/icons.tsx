@@ -46,3 +46,82 @@ export function Instagram(props: Props) {
 		</svg>
 	);
 }
+
+export function JavaScript(props: Props) {
+	return (
+		<svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} {...props}>
+			<g fill="none" stroke="#f9e2af" strokeLinecap="round" strokeLinejoin="round">
+				<title>JavaScript</title>
+				<path d="M4.5 11a1.5 1.5 0 0 0 3 0V7.5m5 1.25c0-.69-.537-1.25-1.2-1.25h-.6c-.663 0-1.2.56-1.2 1.25S10.037 10 10.7 10h.6c.663 0 1.2.56 1.2 1.25s-.537 1.25-1.2 1.25h-.6c-.663 0-1.2-.56-1.2-1.25" />
+				<path d="M4 1.5h8c1.385 0 2.5 1.115 2.5 2.5v8c0 1.385-1.115 2.5-2.5 2.5H4A2.495 2.495 0 0 1 1.5 12V4c0-1.385 1.115-2.5 2.5-2.5Z" />
+			</g>
+		</svg>
+	);
+}
+export function TypeScript(props: Props) {
+	return (
+		<svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} {...props}>
+			<g fill="none" stroke="#89b4fa" strokeLinecap="round" strokeLinejoin="round">
+				<title>TypeScript</title>
+				<path d="M4 1.5h8A2.5 2.5 0 0 1 14.5 4v8a2.5 2.5 0 0 1-2.5 2.5H4A2.5 2.5 0 0 1 1.5 12V4A2.5 2.5 0 0 1 4 1.5" />
+				<path d="M12.5 8.75c0-.69-.54-1.25-1.2-1.25h-.6c-.66 0-1.2.56-1.2 1.25S10.04 10 10.7 10h.6c.66 0 1.2.56 1.2 1.25s-.54 1.25-1.2 1.25h-.6c-.66 0-1.2-.56-1.2-1.25m-3-3.75v5M5 7.5h3" />
+			</g>
+		</svg>
+	);
+}
+
+export function ReactJS(props: Props) {
+	return (
+		<svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} {...props}>
+			<g fill="none" stroke="#89dceb" strokeLinecap="round" strokeLinejoin="round">
+				<title>React</title>
+				<path d="M8 10.8c4.14 0 7.5-1.25 7.5-2.8S12.14 5.2 8 5.2.5 6.45.5 8s3.36 2.8 7.5 2.8" />
+				<path d="M5.52 9.4c2.07 3.5 4.86 5.72 6.23 4.95 1.37-.78.8-4.24-1.27-7.75C8.41 3.1 5.62.88 4.25 1.65c-1.37.78-.8 4.24 1.27 7.75" />
+				<path d="M5.52 6.6c-2.07 3.5-2.64 6.97-1.27 7.75 1.37.77 4.16-1.45 6.23-4.95s2.64-6.97 1.27-7.75C10.38.88 7.59 3.1 5.52 6.6" />
+				<path d="M8.5 8a.5.5 0 0 1-.5.5.5.5 0 0 1-.5-.5.5.5 0 0 1 .5-.5.5.5 0 0 1 .5.5" />
+			</g>
+		</svg>
+	);
+}
+export function NextJS(props: Props) {
+	return (
+		<svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} {...props}>
+			<g fill="none" stroke="#cdd6f4" strokeLinecap="round" strokeLinejoin="round">
+				<title>Next.js</title>
+				<path d="M12.33 12.85a6.5 6.5 0 1 1 1.55-2.08" />
+				<path d="M12.33 12.85 5.5 4.5v7m5-7v3" />
+			</g>
+		</svg>
+	);
+}
+export function Astro(props: Props) {
+	return (
+		<svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} {...props}>
+			<title>Astro</title>
+			<g fill="none" strokeLinecap="round" strokeLinejoin="round">
+				<path
+					stroke="#cdd6f4"
+					d="M10.561 1.61 13.5 10.5c-.995-.517-2.395-1.298-3.5-1.493L8 3.5 6 9.007c-1.11.194-2.5.974-3.5 1.493l3.163-8.891c.121-.398.182-.597.302-.745A.979.979 0 0 1 6.36.57c.176-.07.384-.07.8-.07h1.902c.416 0 .625 0 .801.071a.98.98 0 0 1 .396.293c.12.148.18.347.301.746Z"
+				/>
+				<path
+					stroke="#cba6f7"
+					d="M10.411 11.266c-.43.365-1.292.613-2.283.613-1.217 0-2.237-.374-2.508-.879-.096.29-.119.62-.119.831 0 0-.063 1.038.666 1.76 0-.374.307-.679.686-.679.648 0 .648.561.647 1.016v.04c0 .691.426 1.282 1.032 1.532a1.38 1.38 0 0 1-.141-.61c0-.658.39-.903.845-1.188.36-.227.761-.479 1.038-.985a1.841 1.841 0 0 0 .137-1.451h0Z"
+				/>
+			</g>
+		</svg>
+	);
+}
+export function Swift(props: Props) {
+	return (
+		<svg xmlns="http://www.w3.org/2000/svg" width={16} height={16} {...props}>
+			<title>Swift</title>
+			<path
+				fill="none"
+				stroke="#fab387"
+				strokeLinecap="round"
+				strokeLinejoin="round"
+				d="M14.34 10.2c.34-1.08 1.1-5.07-4.45-8.62a.48.48 0 0 0-.6.07.44.44 0 0 0-.02.6c.03.02 2.07 2.5 1.34 5.34-1.26-.86-6.24-4.81-6.24-4.81L7.25 7.5 1.9 4.05S5.68 8.7 8 10.45c-1.12.4-3.56.82-6.78-1.18a.48.48 0 0 0-.58.06.44.44 0 0 0-.08.56c.11.18 2.7 4.36 8.14 4.36 1.5 0 2.37-.42 3.08-.77.43-.2.77-.37 1.14-.37.93 0 1.54.92 1.54.93.1.14.27.22.44.21a.46.46 0 0 0 .4-.28c.67-1.55-.49-3.2-.96-3.78h0Z"
+			/>
+		</svg>
+	);
+}
