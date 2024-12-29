@@ -69,7 +69,7 @@ export default function Home() {
 	return (
 		<div className="p-2 flex flex-col text-md gap-2">
 			<section>
-				I'm Mashoor, a fullstack web developer. I'm one of the owners and founders of{" "}
+				I'm Mashoor, a fullstack developer. I'm one of the owners and founders of{" "}
 				<a
 					href="https://github.com/spaceness"
 					className="text-blue font-bold active:text-red hover:text-sky duration-150"
