@@ -6,7 +6,7 @@ import Image from "next/image";
 import { type LanyardData, useLanyard } from "react-use-lanyard";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 export const SuspenseFallback = () => (
-	<div className="rounded-md bg-fd-muted w-80 h-40 flex justify-center items-center border">loading...</div>
+	<div className="rounded-md bg-fd-muted w-96 h-40 flex justify-center items-center border">loading...</div>
 );
 export function DiscordStatus() {
 	const {
@@ -28,7 +28,7 @@ export function DiscordStatus() {
 	};
 	return (
 		<Card
-			className="w-80 h-40"
+			className="w-96 h-40"
 			title={`${status.discord_user.global_name} (${status.discord_user.username})`}
 			icon={
 				<Tooltip>
