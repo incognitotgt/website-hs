@@ -124,7 +124,7 @@ export default function Home() {
 						<StackProgress title="JavaScript" progress={80} Icon={JavaScript} />
 						<StackProgress title="TypeScript" progress={85} Icon={TypeScript} />
 						<StackProgress title="React" progress={95} Icon={ReactJS} />
-						<StackProgress title="Next.js" progress={97} Icon={NextJS} />
+						<StackProgress title="Next.js" progress={100} Icon={NextJS} />
 						<StackProgress title="Astro" progress={80} Icon={Astro} />
 						<StackProgress title="Swift" progress={50} Icon={Swift} />
 						<StackProgress title="SolidJS" progress={60} Icon={SolidJS} />
