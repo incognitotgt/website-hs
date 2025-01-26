@@ -15,7 +15,7 @@ export function DiscordStatus() {
 		data: { data: status } = {},
 	} = useLanyard({
 		userId: "1053443057451794585",
-		apiUrl: `${process.env.NODE_ENV === "production" ? "www.incognitotgt.me" : "localhost:3000"}/lanyard`,
+		apiUrl: `${process.env.NODE_ENV === "production" ? "www.incognitotgt.me" : "localhost:3001"}/lanyard`,
 	});
 	if (isLoading || isValidating || !status) return <SuspenseFallback />;
 	const customStatus = status.activities.find((activity) => activity.type === 4);
@@ -61,7 +61,12 @@ export function DiscordStatus() {
 				{listeningActivity ? (
 					<div className="flex flex-row gap-2 items-center">
 						<AudioLines className="size-4" />
-						<p className="truncate">{listeningActivity.details}</p>
+						<p className="truncate">
+							{listeningActivity.details}
+							{listeningActivity.timestamps
+								? ` - ${formatListeningTimestamps(listeningActivity.timestamps.start, listeningActivity.timestamps.end)}`
+								: ""}
+						</p>
 					</div>
 				) : null}
 				<div className="flex flex-row gap-2 items-center">
@@ -95,4 +100,14 @@ function formatElapsedTime(startTimestamp: number) {
 	const hours = Math.floor(elapsedMs / (1000 * 60 * 60));
 	const minutes = Math.floor((elapsedMs % (1000 * 60 * 60)) / (1000 * 60));
 	return `${hours}h ${minutes}m`;
+}
+function formatListeningTimestamps(startTimestamp: number, endTimestamp: number) {
+	const now = Date.now();
+	const elapsedMs = now - startTimestamp;
+	const startMin = Math.floor((elapsedMs % (1000 * 60 * 60)) / (1000 * 60));
+	const startSec = Math.floor((elapsedMs % (1000 * 60)) / 1000);
+	const realEnd = endTimestamp - startTimestamp;
+	const endMin = Math.floor(realEnd / (1000 * 60));
+	const endSec = Math.floor((realEnd % (1000 * 60)) / 1000);
+	return `${startMin}:${startSec.toString().padStart(2, "0")}/${endMin}:${endSec.toString().padStart(2, "0")}`;
 }
