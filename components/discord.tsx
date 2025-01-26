@@ -1,7 +1,7 @@
 "use client";
 
 import { Card } from "fumadocs-ui/components/card";
-import { CircleDashed, Clock, Code, MessageCircle } from "lucide-react";
+import { AudioLines, CircleDashed, Clock, Code, MessageCircle } from "lucide-react";
 import Image from "next/image";
 import { type LanyardData, useLanyard } from "react-use-lanyard";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
@@ -20,6 +20,7 @@ export function DiscordStatus() {
 	if (isLoading || isValidating || !status) return <SuspenseFallback />;
 	const customStatus = status.activities.find((activity) => activity.type === 4);
 	const gameActivity = status.activities.find((activity) => activity.type === 0);
+	const listeningActivity = status.activities.find((activity) => activity.type === 2);
 	const statusClassMap: Record<LanyardData["discord_status"], string> = {
 		online: "text-green",
 		idle: "text-yellow",
@@ -28,7 +29,7 @@ export function DiscordStatus() {
 	};
 	return (
 		<Card
-			className="w-96 h-40"
+			className="w-96 h-auto"
 			title={`${status.discord_user.global_name} (${status.discord_user.username})`}
 			icon={
 				<Tooltip>
@@ -55,6 +56,12 @@ export function DiscordStatus() {
 					<div className="flex flex-row gap-2 items-center">
 						<MessageCircle className="size-4" />
 						<p className="truncate">{customStatus.state}</p>
+					</div>
+				) : null}
+				{listeningActivity ? (
+					<div className="flex flex-row gap-2 items-center">
+						<AudioLines className="size-4" />
+						<p className="truncate">{listeningActivity.details}</p>
 					</div>
 				) : null}
 				<div className="flex flex-row gap-2 items-center">
