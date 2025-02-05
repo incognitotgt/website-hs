@@ -9,11 +9,11 @@ import {
 	Discord,
 	GitHub,
 	Instagram,
-	Java,
 	JavaScript,
 	NextJS,
 	ReactJS,
 	SolidJS,
+	Svelte,
 	Swift,
 	TypeScript,
 } from "./icons";
@@ -123,12 +123,12 @@ export default function Home() {
 					<div className="grid grid-cols-2 w-full gap-2">
 						<StackProgress title="JavaScript" progress={80} Icon={JavaScript} />
 						<StackProgress title="TypeScript" progress={85} Icon={TypeScript} />
+						<StackProgress title="Svelte" progress={50} Icon={Svelte} />
 						<StackProgress title="React" progress={95} Icon={ReactJS} />
 						<StackProgress title="Next.js" progress={100} Icon={NextJS} />
 						<StackProgress title="Astro" progress={80} Icon={Astro} />
-						<StackProgress title="Swift" progress={50} Icon={Swift} />
 						<StackProgress title="SolidJS" progress={60} Icon={SolidJS} />
-						<StackProgress title="yapping" progress={100} Icon={Java} />
+						<StackProgress title="Swift" progress={50} Icon={Swift} />
 					</div>
 					<h2 className="text-2xl font-bold text-mauve">contact</h2>
 					<div className="flex flex-wrap gap-2">
