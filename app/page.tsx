@@ -1,7 +1,7 @@
 import { DiscordStatus, SuspenseFallback } from "@/components/discord";
 import { StackProgress } from "@/components/stack-progress";
 import { Card } from "fumadocs-ui/components/card";
-import { LayoutGrid, type LucideIcon, Mail, MapPin, Rocket, Sparkles } from "lucide-react";
+import { Clock12, LayoutGrid, type LucideIcon, Mail, Rocket, Sparkles } from "lucide-react";
 import { Suspense } from "react";
 import {
 	Astro,
@@ -67,12 +67,6 @@ export default function Home() {
 			link: "https://github.com/incognitotgt",
 			display: "incognitotgt",
 			Icon: GitHub,
-		},
-		{
-			name: "Instagram",
-			link: "https://instagram.com/sudormrf_",
-			display: "sudormrf_",
-			Icon: Instagram,
 		},
 		{
 			name: "Bluesky",
@@ -142,7 +136,7 @@ export default function Home() {
 								key={name}
 							/>
 						))}
-						<Card className="w-56" title="Location" description="Baltimore, MD, USA" icon={<MapPin />} />
+						<Card className="w-56" title="Time" description="EST - America/New_York" icon={<Clock12 />} />
 					</div>
 				</section>
 			</div>
