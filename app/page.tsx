@@ -78,7 +78,7 @@ export default function Home() {
 	return (
 		<div className="p-2 flex flex-col text-md gap-2">
 			<section>
-				I'm Mashoor, a fullstack developer. I'm one of the owners and founders of{" "}
+				I'm a fullstack developer. I'm one of the owners and founders of{" "}
 				<a
 					href="https://github.com/spaceness"
 					className="text-blue font-bold active:text-red hover:text-sky duration-150"
@@ -92,8 +92,8 @@ export default function Home() {
 					<ul className="list-disc list-inside">
 						<li>14</li>
 						<li>sunni muslim</li>
-						<li>8th grade</li>
-						<li>school muslim student association president</li>
+						<li>freshman</li>
+						<li>school muslim student association founding president (middle school)</li>
 						<li>county student council legislative affairs coordinator</li>
 						<li>public infrastructure is interesting to me for no reason whatsoever</li>
 						<li>cyclist</li>
