@@ -1,14 +1,13 @@
 import { DiscordStatus, SuspenseFallback } from "@/components/discord";
 import { StackProgress } from "@/components/stack-progress";
 import { Card } from "fumadocs-ui/components/card";
-import { Clock12, LayoutGrid, type LucideIcon, Mail, Rocket, Sparkles } from "lucide-react";
+import { Clock12, GraduationCap, type LucideIcon, Mail, Sparkle, Sparkles } from "lucide-react";
 import { Suspense } from "react";
 import {
 	Astro,
 	Bluesky,
 	Discord,
 	GitHub,
-	Instagram,
 	JavaScript,
 	NextJS,
 	ReactJS,
@@ -22,6 +21,7 @@ type Contact = {
 	link: string;
 	display: string;
 	Icon: React.FC<React.SVGProps<SVGSVGElement>> | LucideIcon;
+	color: string;
 };
 export default function Home() {
 	const projects: {
@@ -40,13 +40,13 @@ export default function Home() {
 			name: "schoology-frontend",
 			description: "alternative frontend for schoology (wip)",
 			link: "incognitotgt/schoology-frontend",
-			Icon: Rocket,
+			Icon: GraduationCap,
 		},
 		{
-			name: "schoology-ios",
-			description: "better mobile app for schoology (wip)",
-			link: "incognitotgt/schoology-ios",
-			Icon: LayoutGrid,
+			name: "Starlight",
+			description: "simple remote desktop",
+			link: "incognitotgt/starlight-web",
+			Icon: Sparkle,
 		},
 	];
 	const contact: Contact[] = [
@@ -55,24 +55,28 @@ export default function Home() {
 			link: "mailto:tgt@incognitotgt.me",
 			display: "tgt@incognitotgt.me",
 			Icon: Mail,
+			color: "text-yellow",
 		},
 		{
 			name: "Discord",
 			link: "https://discord.com/users/268000823961962240",
 			display: "tg.t",
 			Icon: Discord,
+			color: "text-lavender",
 		},
 		{
 			name: "GitHub",
 			link: "https://github.com/incognitotgt",
 			display: "incognitotgt",
 			Icon: GitHub,
+			color: "text-text",
 		},
 		{
 			name: "Bluesky",
 			link: "https://bsky.app/profile/incognitotgt.me",
 			display: "incognitotgt.me",
 			Icon: Bluesky,
+			color: "text-sky",
 		},
 	];
 	return (
@@ -126,17 +130,22 @@ export default function Home() {
 					</div>
 					<h2 className="text-2xl font-bold text-mauve">contact</h2>
 					<div className="flex flex-wrap gap-2">
-						{contact.map(({ name, display, link, Icon }) => (
+						{contact.map(({ name, display, link, Icon, color }) => (
 							<Card
 								className="w-56"
 								title={name}
 								description={display}
 								href={link}
-								icon={<Icon className="size-6" />}
+								icon={<Icon className={`size-6 ${color}`} />}
 								key={name}
 							/>
 						))}
-						<Card className="w-56" title="Time" description="EST - America/New_York" icon={<Clock12 />} />
+						<Card
+							className="w-56"
+							title="Time"
+							description="EST - America/New_York"
+							icon={<Clock12 className="text-green" />}
+						/>
 					</div>
 				</section>
 			</div>

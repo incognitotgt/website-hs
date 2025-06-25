@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Doto } from "next/font/google";
 import "./globals.css";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { getWebringNavigation } from "@/lib/hc-webring";
 import Nav from "./nav";
 const sans = Doto({ variable: "--font-sans", subsets: ["latin"] });
 export const metadata: Metadata = {
@@ -10,16 +11,18 @@ export const metadata: Metadata = {
 	description: "my personal portfolio",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
+	const hcUrls = await getWebringNavigation();
+
 	return (
 		<html lang="en" className={`${sans.variable} dark`}>
 			<body className="font-sans antialiased bg-base text-text font-medium h-screen flex flex-col overflow-x-hidden selection:bg-surface2/60">
 				<TooltipProvider>
-					<Nav />
+					<Nav webringUrls={hcUrls} />
 					<main className="mt-20 px-2">{children}</main>
 				</TooltipProvider>
 				<Analytics />
@@ -27,3 +30,4 @@ export default function RootLayout({
 		</html>
 	);
 }
+export const experimental_ppr = true;

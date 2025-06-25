@@ -54,13 +54,13 @@ export function DiscordStatus() {
 			<div className="flex flex-col gap-2">
 				{customStatus ? (
 					<div className="flex flex-row gap-2 items-center">
-						<MessageCircle className="size-4" />
+						<MessageCircle className="size-4 text-blue" />
 						<p className="truncate">{customStatus.state}</p>
 					</div>
 				) : null}
 				{listeningActivity ? (
 					<div className="flex flex-row gap-2 items-center">
-						<AudioLines className="size-4" />
+						<AudioLines className="size-4 text-red" />
 						<p className="truncate">
 							{listeningActivity.details}
 							{listeningActivity.timestamps
@@ -72,13 +72,13 @@ export function DiscordStatus() {
 				<div className="flex flex-row gap-2 items-center">
 					{gameActivity ? (
 						<>
-							<Code className="size-4" />
+							<Code className="size-4 text-green" />
 							<p className="truncate">
 								{gameActivity.name}: {gameActivity.details}
 							</p>
 							{gameActivity.timestamps ? (
 								<>
-									<Clock className="size-4" />
+									<Clock className="size-4 text-yellow  " />
 									<p>{formatElapsedTime(gameActivity.timestamps.start)}</p>
 								</>
 							) : null}
