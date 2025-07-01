@@ -11,6 +11,7 @@ import {
 	JavaScript,
 	NextJS,
 	ReactJS,
+	Signal,
 	SolidJS,
 	Svelte,
 	Swift,
@@ -63,6 +64,13 @@ export default function Home() {
 			display: "tg.t",
 			Icon: Discord,
 			color: "text-lavender",
+		},
+		{
+			name: "Signal",
+			link: "https://signal.me/#eu/Kf52oLQ2pC8glop6IBOjRUYDfeyCZ5TIleAw1VQrgUkWVDcljKdJjoYaWPlip8qg",
+			display: "mhx.01",
+			Icon: Signal,
+			color: "fill-blue",
 		},
 		{
 			name: "GitHub",
