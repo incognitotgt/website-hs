@@ -90,13 +90,7 @@ export default function Home() {
 	return (
 		<div className="p-2 flex flex-col text-md gap-2">
 			<section>
-				I'm a fullstack developer. I'm one of the owners and founders of{" "}
-				<a
-					href="https://github.com/spaceness"
-					className="text-blue font-bold active:text-red hover:text-sky duration-150"
-				>
-					spaceness
-				</a>
+				I'm a fullstack developer.
 			</section>
 			<div className="flex w-full md:flex-row flex-col">
 				<section className="md:w-1/2 flex flex-col gap-2">
