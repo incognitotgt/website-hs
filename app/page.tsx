@@ -34,7 +34,7 @@ export default function Home() {
 		{
 			name: "Stardust",
 			description: "isolated, disposable workspaces",
-			link: "spaceness/stardust",
+			link: "aetherra/stardust",
 			Icon: Sparkles,
 		},
 		{
@@ -89,9 +89,15 @@ export default function Home() {
 	];
 	return (
 		<div className="p-2 flex flex-col text-md gap-2">
-			<section>
-				I'm a fullstack developer.
-			</section>
+		<section>
+			I'm a fullstack developer. I'm also one of the developers at {" "}
+			<a
+				href="https://github.com/aetherra"
+				className="text-blue font-bold active:text-red hover:text-sky duration-150"
+			>
+			aetherra.
+			</a>
+		</section>
 			<div className="flex w-full md:flex-row flex-col">
 				<section className="md:w-1/2 flex flex-col gap-2">
 					<h2 className="text-2xl font-bold text-mauve">random stuff and basic info</h2>
@@ -100,7 +106,7 @@ export default function Home() {
 						<li>sunni muslim</li>
 						<li>freshman</li>
 						<li>school muslim student association founding president (middle school)</li>
-						<li>county student council legislative affairs coordinator</li>
+						<li>involved in county student council in various ways</li>
 						<li>public infrastructure is interesting to me for no reason whatsoever</li>
 						<li>cyclist</li>
 					</ul>
