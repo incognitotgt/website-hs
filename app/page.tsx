@@ -90,7 +90,7 @@ export default function Home() {
 	return (
 		<div className="p-2 flex flex-col text-md gap-2">
 		<section>
-			I'm a fullstack developer. I'm also one of the developers at {" "}
+			&#x1F54B; | yapper, developer, and general tinkerer. <br /> developer @ {" "}
 			<a
 				href="https://github.com/aetherra"
 				className="text-blue font-bold active:text-red hover:text-sky duration-150"
@@ -103,7 +103,7 @@ export default function Home() {
 					<h2 className="text-2xl font-bold text-mauve">random stuff and basic info</h2>
 					<ul className="list-disc list-inside">
 						<li>14</li>
-						<li>sunni muslim</li>
+						<li>muslim</li>
 						<li>freshman</li>
 						<li>school muslim student association founding president (middle school)</li>
 						<li>involved in county student council in various ways</li>
