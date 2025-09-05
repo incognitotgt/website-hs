@@ -90,7 +90,7 @@ export default function Home() {
 	return (
 		<div className="p-2 flex flex-col text-md gap-2">
 		<section>
-			&#x1F54B; | yapper, developer, and general tinkerer. <br /> developer @ {" "}
+			&#x1F54B; | software developer | <br /> developer @ {" "}
 			<a
 				href="https://github.com/aetherra"
 				className="text-blue font-bold active:text-red hover:text-sky duration-150"
@@ -104,11 +104,11 @@ export default function Home() {
 					<ul className="list-disc list-inside">
 						<li>14</li>
 						<li>muslim</li>
-						<li>freshman</li>
-						<li>school muslim student association founding president (middle school)</li>
+						<li>wt '29</li>
+						<li>msa board member</li>
 						<li>involved in county student council in various ways</li>
 						<li>public infrastructure is interesting to me for no reason whatsoever</li>
-						<li>cyclist</li>
+						<li>hopefully planning to major in computer engineering</li>
 					</ul>
 					<h2 className="text-2xl font-bold text-mauve">projects</h2>
 					<div className="flex flex-wrap gap-2">
