@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
 	},
 };
 const mdx = createMDX();
-export default mdx();
+export default mdx(nextConfig);
 function discordRemotePatterns(pathnames: string[]) {
 	return pathnames.map((pathname) => ({
 		pathname: `/${pathname}/**`,

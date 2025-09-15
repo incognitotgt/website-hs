@@ -9,6 +9,7 @@ export default function Page() {
 		<div className="flex flex-col items-center justify-center mt-4 mb-20">
 			<h1 className="text-4xl font-bold mb-4 text-mauve">blog</h1>
 			<p>for the minute chance i need to write something down (probably a security writeup)</p>
+			<div className="flex flex-col justify-center">
 			{pages
 				.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
 				.map((page) => (
@@ -19,6 +20,7 @@ export default function Page() {
 						<p>{new Date(page.data.date).toLocaleDateString()}</p>
 					</div>
 				))}
+			</div>
 		</div>
 	);
 }

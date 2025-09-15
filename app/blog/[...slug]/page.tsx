@@ -20,7 +20,7 @@ export default async function Page(props: {
 	const { body: MDX } = page.data;
 
 	return (
-		<DocsBody className="mx-36 pt-4 mb-4">
+		<DocsBody className="sm:mx-36 mx-1 pt-4 mb-4">
 			<h1 className="text-5xl text-mauve -mb-4">{page.data.title}</h1>
 			<h2 className="text-subtext0">{new Date(page.data.date).toLocaleDateString()}</h2>
 			<MDX
