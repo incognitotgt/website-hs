@@ -1,3 +1,4 @@
+import { createMDX } from "fumadocs-mdx/next";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
@@ -5,8 +6,8 @@ const nextConfig: NextConfig = {
 		remotePatterns: discordRemotePatterns(["avatars", "icons"]),
 	},
 };
-
-export default nextConfig;
+const mdx = createMDX();
+export default mdx();
 function discordRemotePatterns(pathnames: string[]) {
 	return pathnames.map((pathname) => ({
 		pathname: `/${pathname}/**`,

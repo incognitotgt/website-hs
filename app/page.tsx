@@ -89,15 +89,15 @@ export default function Home() {
 	];
 	return (
 		<div className="p-2 flex flex-col text-md gap-2">
-		<section>
-			&#x1F54B; | software developer | <br /> developer @ {" "}
-			<a
-				href="https://github.com/aetherra"
-				className="text-blue font-bold active:text-red hover:text-sky duration-150"
-			>
-			aetherra.
-			</a>
-		</section>
+			<section>
+				&#x1F54B; | software developer | developer @{" "}
+				<a
+					href="https://github.com/aetherra"
+					className="text-blue font-bold active:text-red hover:text-sky duration-150"
+				>
+					aetherra.
+				</a>
+			</section>
 			<div className="flex w-full md:flex-row flex-col">
 				<section className="md:w-1/2 flex flex-col gap-2">
 					<h2 className="text-2xl font-bold text-mauve">random stuff and basic info</h2>
