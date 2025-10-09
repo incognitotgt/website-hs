@@ -1,7 +1,10 @@
 ---
-title: TCP framing bug allows cross-client request leakage in Simple DNS Plus
-date: 2025-09-15
+title: Cross-client request leakage in Simple DNS Plus CVE-2025-61430
+date: 2025-10-09
 ---
+
+CVE ID: CVE-2025-61430
+
 # Introduction
 
 Improper handling of DNS over TCP in Simple DNS Plus v9 allows a remote attacker with querying access to the DNS server to cause the server to return request payloads from other clients. This happens when the TCP length prefix is malformed (len ≠ actual packet len), and due to a concurrency/buffering issue, even when the lengths match. A length prefix that is smaller than the actual packet size increases information leakage. In summary, this vulnerability allows an attacker to see DNS queries of other clients’ (CWE-125 / CWE-130 / CWE-444).
