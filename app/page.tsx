@@ -102,13 +102,14 @@ export default function Home() {
 				<section className="md:w-1/2 flex flex-col gap-2">
 					<h2 className="text-2xl font-bold text-mauve">random stuff and basic info</h2>
 					<ul className="list-disc list-inside">
-						<li>14</li>
+						<li>15</li>
 						<li>muslim</li>
 						<li>wt '29</li>
 						<li>msa board member</li>
 						<li>involved in county student council in various ways</li>
 						<li>public infrastructure is interesting to me for no reason whatsoever</li>
 						<li>hopefully planning to major in computer engineering</li>
+						<li>outside of tech i do night photography and astrophotography</li>
 					</ul>
 					<h2 className="text-2xl font-bold text-mauve">projects</h2>
 					<div className="flex flex-wrap gap-2">
