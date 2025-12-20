@@ -1,7 +1,7 @@
 import { DiscordStatus, SuspenseFallback } from "@/components/discord";
 import { StackProgress } from "@/components/stack-progress";
 import { Card } from "fumadocs-ui/components/card";
-import { Clock12, GraduationCap, type LucideIcon, Mail, Sparkle, Sparkles } from "lucide-react";
+import { Clock12, GraduationCap, type LucideIcon, Mail, ScanEye, Sparkle, Sparkles } from "lucide-react";
 import { Suspense } from "react";
 import {
 	Astro,
@@ -10,6 +10,7 @@ import {
 	GitHub,
 	JavaScript,
 	NextJS,
+	Python,
 	ReactJS,
 	Signal,
 	SolidJS,
@@ -32,6 +33,12 @@ export default function Home() {
 		Icon?: React.FC<React.SVGProps<SVGSVGElement>> | LucideIcon;
 	}[] = [
 		{
+			name: "Indicia",
+			description: "osint tool for searching up things",
+			link: "indiciateam",
+			Icon: ScanEye,
+		},
+		{
 			name: "Stardust",
 			description: "isolated, disposable workspaces",
 			link: "aetherra/stardust",
@@ -39,15 +46,9 @@ export default function Home() {
 		},
 		{
 			name: "schoology-frontend",
-			description: "alternative frontend for schoology (wip)",
+			description: "alternative frontend for schoology (wip, unmaintained)",
 			link: "incognitotgt/schoology-frontend",
 			Icon: GraduationCap,
-		},
-		{
-			name: "Starlight",
-			description: "simple remote desktop",
-			link: "incognitotgt/starlight-web",
-			Icon: Sparkle,
 		},
 	];
 	const contact: Contact[] = [
@@ -90,12 +91,16 @@ export default function Home() {
 	return (
 		<div className="p-2 flex flex-col text-md gap-2">
 			<section>
-				&#x1F54B; | software developer | developer @{" "}
+				&#x1F54B; | cybersecurity | coo @{" "}
+				<a href="https://indicia.app" className="text-blue font-bold active:text-red hover:text-sky duration-150">
+					indicia
+				</a>{" "}
+				| developer @{" "}
 				<a
 					href="https://github.com/aetherra"
 					className="text-blue font-bold active:text-red hover:text-sky duration-150"
 				>
-					aetherra.
+					aetherra
 				</a>
 			</section>
 			<div className="flex w-full md:flex-row flex-col">
@@ -104,12 +109,10 @@ export default function Home() {
 					<ul className="list-disc list-inside">
 						<li>15</li>
 						<li>muslim</li>
-						<li>wt '29</li>
+						<li>wt '29 (artificial intelligence)</li>
 						<li>msa board member</li>
-						<li>involved in county student council in various ways</li>
-						<li>public infrastructure is interesting to me for no reason whatsoever</li>
-						<li>hopefully planning to major in computer engineering</li>
-						<li>outside of tech i do night photography and astrophotography</li>
+						<li>state student council + county student council</li>
+						<li>planning to major in computer engineering, cybersecurity, and/or sharia</li>
 					</ul>
 					<h2 className="text-2xl font-bold text-mauve">projects</h2>
 					<div className="flex flex-wrap gap-2">
@@ -136,6 +139,7 @@ export default function Home() {
 						<StackProgress title="Astro" progress={80} Icon={Astro} />
 						<StackProgress title="SolidJS" progress={60} Icon={SolidJS} />
 						<StackProgress title="Swift" progress={50} Icon={Swift} />
+						<StackProgress title="Python (ew)" progress={20} Icon={Python} />
 					</div>
 					<h2 className="text-2xl font-bold text-mauve">contact</h2>
 					<div className="flex flex-wrap gap-2">

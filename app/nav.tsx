@@ -22,6 +22,15 @@ export default function Nav() {
 				<Link href="/blog" className="text-blue hover:text-sky active:text-red font-bold">
 					blog
 				</Link>
+				;
+				<Link
+					href="https://www.icloud.com/sharedalbum/#B1p5oqs3qcBHRb6"
+					target="_blank"
+					rel="noopener noreferer"
+					className="text-blue hover:text-sky active:text-red font-bold"
+				>
+					photography
+				</Link>
 			</div>
 		</nav>
 	);
