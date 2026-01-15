@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server";
 
 // This function can be marked `async` if using `await` inside
 export function proxy(request: NextRequest) {
-	const referer = request.headers.get("Referer");
+	const referer = request.headers.get("referer");
 	const headers = Object.fromEntries(request.headers);
 	if (referer?.includes("schoology.com")) {
 		after(() =>
