@@ -55,7 +55,7 @@ export function DiscordStatus() {
 				{customStatus ? (
 					<div className="flex flex-row gap-2 items-center">
 						<MessageCircle className="size-4 text-blue" />
-						<p className="truncate">{customStatus.state}</p>
+            <p className="truncate">{customStatus.emoji?.name ?`${customStatus.emoji.name} ` :""}{customStatus.state}</p>
 					</div>
 				) : null}
 				{listeningActivity ? (
