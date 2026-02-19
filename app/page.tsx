@@ -1,7 +1,7 @@
 import { DiscordStatus, SuspenseFallback } from "@/components/discord";
 import { StackProgress } from "@/components/stack-progress";
 import { Card } from "fumadocs-ui/components/card";
-import { Clock12, GraduationCap, type LucideIcon, Mail, ScanEye, Sparkle, Sparkles } from "lucide-react";
+import { Clock12, GraduationCap, Linkedin, type LucideIcon, Mail, ScanEye, Sparkle, Sparkles } from "lucide-react";
 import { Suspense } from "react";
 import {
 	Astro,
@@ -86,7 +86,14 @@ export default function Home() {
 			display: "incognitotgt.me",
 			Icon: Bluesky,
 			color: "text-sky",
-		},
+    },
+    {
+      name: 'Linkedin',
+      link: 'https://linkedin.com/in/mashoor-ahmed',
+      display: 'because why not',
+      Icon: Linkedin,
+      color: 'text-blue'
+		}
 	];
 	return (
 		<div className="p-2 flex flex-col text-md gap-2">
@@ -153,12 +160,6 @@ export default function Home() {
 								key={name}
 							/>
 						))}
-						<Card
-							className="w-56"
-							title="Time"
-							description="EST - America/New_York"
-							icon={<Clock12 className="text-green" />}
-						/>
 					</div>
 				</section>
 			</div>

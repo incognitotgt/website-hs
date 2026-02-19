@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import { Doto } from "next/font/google";
 import "./globals.css";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { getWebringNavigation } from "@/lib/hc-webring";
 import Footer from "./footer";
 import Nav from "./nav";
 const sans = Doto({ variable: "--font-sans", subsets: ["latin"] });
@@ -17,7 +16,6 @@ export default async function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	const hcUrls = await getWebringNavigation();
 
 	return (
 		<html lang="en" className={`${sans.variable} dark`}>
@@ -25,7 +23,7 @@ export default async function RootLayout({
 				<TooltipProvider>
 					<Nav />
 					<main className="mt-20 px-2">{children}</main>
-					<Footer webringUrls={hcUrls} />
+					<Footer />
 				</TooltipProvider>
 				<Analytics />
 			</body>
