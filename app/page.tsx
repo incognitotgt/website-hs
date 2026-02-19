@@ -61,8 +61,8 @@ export default function Home() {
 		},
 		{
 			name: "Discord",
-			link: "https://discord.com/users/268000823961962240",
-			display: "tg.t",
+			link: "https://discord.com/users/1091735539025203220",
+			display: "35tx",
 			Icon: Discord,
 			color: "text-lavender",
 		},
