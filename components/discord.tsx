@@ -14,7 +14,8 @@ export function DiscordStatus() {
 		isValidating,
 		data: { data: status } = {},
 	} = useLanyard({
-		userId: "1053443057451794585",
+		userId: "1091735539025203220",
+		// userId: "1053443057451794585",
 		apiUrl: `${process.env.NODE_ENV === "production" ? "www.incognitotgt.me" : "localhost:3001"}/lanyard`,
 	});
 	if (isLoading || isValidating || !status) return <SuspenseFallback />;
