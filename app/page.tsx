@@ -62,7 +62,7 @@ export default function Home() {
 		{
 			name: "Discord",
 			link: "https://discord.com/users/1091735539025203220",
-			display: "35tx",
+			display: "0mhx",
 			Icon: Discord,
 			color: "text-lavender",
 		},
