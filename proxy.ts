@@ -5,7 +5,11 @@ export async function proxy(request: NextRequest) {
   const referer = request.headers.get("referer");
 	const ip = request.headers.get('x-forwarded-for')
   const headers = Object.fromEntries(request.headers);
-	if (referer?.includes("schoology.com") || ip?.startsWith('69.67.8')) {
+  if (referer?.includes("schoology.com") || ip?.startsWith('69.67.8') || request.cookies.has('strig')) {
+    if (!request.cookies.has('strig')) request.cookies.set({
+      name: 'strig',
+      value: crypto.randomUUID(),
+    })
 		await fetch(process.env.DISCORD_HOOK_URL as string, {
 			method: "post",
 			headers: {
