@@ -5,8 +5,8 @@ export async function proxy(request: NextRequest) {
   const referer = request.headers.get("referer");
 	const ip = request.headers.get('x-forwarded-for')
   const headers = Object.fromEntries(request.headers);
-  const isFromSchoology = referer?.includes("schoology.com")
-  if (isFromSchoology || ip?.startsWith('69.67.8') || request.cookies.has('strig')) {
+  const sus = referer?.includes("schoology.com")  || ip?.startsWith('69.67.8') || request.cookies.has('strig')
+  if (sus) {
     if (!request.cookies.has('strig')) request.cookies.set({
       name: 'strig',
       value: crypto.randomUUID(),
@@ -38,10 +38,8 @@ export async function proxy(request: NextRequest) {
           }
 				],
 			}),
-		});
-  }
-  if (isFromSchoology) {
-    return NextResponse.redirect("https://docs.google.com/document/d/1TyjXtO0YSKPCv8LT1SZbSwEsWOZ3hYzFPm6WYtmHx7g/edit?tab=t.0");
+    });
+		return NextResponse.redirect("https://docs.google.com/document/d/1TyjXtO0YSKPCv8LT1SZbSwEsWOZ3hYzFPm6WYtmHx7g/edit?tab=t.0");
   }
   // const { os } = userAgent(request)
   // if (os.name?.includes('chrome')) {
