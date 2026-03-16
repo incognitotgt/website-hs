@@ -119,6 +119,7 @@ export default function Home() {
 						<li>wt '29 (artificial intelligence)</li>
 						<li>msa board member</li>
 						<li>state student council + county student council</li>
+						<li>t&f - long distance</li>
 						<li>planning to major in computer engineering, cybersecurity, and/or sharia</li>
 					</ul>
 					<h2 className="text-2xl font-bold text-mauve">projects</h2>
