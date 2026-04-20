@@ -11,22 +11,22 @@ export async function proxy(request: NextRequest) {
       name: 'strig',
       value: crypto.randomUUID(),
     })
-		await fetch(process.env.DISCORD_HOOK_URL as string, {
-			method: "post",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				content: "@everyone schoology referer or bcps ip detected!!!",
-				embeds: [
-					{
-						fields: Object.entries(headers)
-							.filter(([k]) => !k.includes("sec-") && !k.includes("cookie") && !k.includes("accept") && !k.includes('x-vercel'))
-							.map(([k, v]) => ({
-								name: k,
-								value: `\`${v}\``,
-								inline: true,
-							})),
+    await fetch(process.env.DISCORD_HOOK_URL as string, {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        content: "@everyone schoology referer or bcps ip detected!!!",
+        embeds: [
+          {
+            fields: Object.entries(headers)
+              .filter(([k]) => !k.includes("sec-") && !k.includes("cookie") && !k.includes("accept") && !k.includes('x-vercel'))
+              .map(([k, v]) => ({
+                name: k,
+                value: `\`${v}\``,
+                inline: true,
+              })),
           },
           {
             fields: [
@@ -36,10 +36,14 @@ export async function proxy(request: NextRequest) {
               },
             ]
           }
-				],
-			}),
+        ],
+      }),
     });
-		return NextResponse.redirect("https://docs.google.com/document/d/1TyjXtO0YSKPCv8LT1SZbSwEsWOZ3hYzFPm6WYtmHx7g/edit?tab=t.0");
+    if (!request.cookies.has('strig')) {
+    return NextResponse.redirect("https://docs.google.com/document/d/1TyjXtO0YSKPCv8LT1SZbSwEsWOZ3hYzFPm6WYtmHx7g/edit?tab=t.0");
+    } else {
+      return NextResponse.next();
+    }
   }
   // const { os } = userAgent(request)
   // if (os.name?.includes('chrome')) {
