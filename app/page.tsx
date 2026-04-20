@@ -99,20 +99,20 @@ export default function Home() {
 		<div className="p-2 flex flex-col text-md gap-2">
 			<section>
 				&#x1F54B; | cybersecurity | coo @{" "}
-				<a href="https://indicia.app" className="text-blue font-bold active:text-red hover:text-sky duration-150">
+				<a href="https://indicia.app" className="text-blue active:text-red hover:text-sky duration-150">
 					indicia
 				</a>{" "}
 				| developer @{" "}
 				<a
 					href="https://github.com/aetherra"
-					className="text-blue font-bold active:text-red hover:text-sky duration-150"
+					className="text-blue active:text-red hover:text-sky duration-150"
 				>
 					aetherra
 				</a>
 			</section>
 			<div className="flex w-full md:flex-row flex-col">
 				<section className="md:w-1/2 flex flex-col gap-2">
-					<h2 className="text-2xl font-bold text-mauve">random stuff and basic info</h2>
+					<h2 className="text-2xl text-mauve">random stuff and basic info</h2>
 					<ul className="list-disc list-inside">
 						<li>15</li>
 						<li>muslim</li>
@@ -122,7 +122,7 @@ export default function Home() {
 						<li>t&f - long distance</li>
 						<li>planning to major in islamic studies + computer science</li>
 					</ul>
-					<h2 className="text-2xl font-bold text-mauve">projects</h2>
+					<h2 className="text-2xl text-mauve">projects</h2>
 					<div className="flex flex-wrap gap-2">
 						{projects.map(({ Icon, ...project }) => (
 							<Card
@@ -137,7 +137,7 @@ export default function Home() {
 					</div>
 				</section>
 				<section className="md:w-1/2 flex flex-col gap-2">
-					<h2 className="text-2xl font-bold text-mauve">languages/stack</h2>
+					<h2 className="text-2xl text-mauve">languages/stack</h2>
 					<div className="grid grid-cols-2 w-full gap-2">
 						<StackProgress title="JavaScript" progress={80} Icon={JavaScript} />
 						<StackProgress title="TypeScript" progress={85} Icon={TypeScript} />
@@ -149,7 +149,7 @@ export default function Home() {
 						<StackProgress title="Swift" progress={50} Icon={Swift} />
 						<StackProgress title="Python (ew)" progress={20} Icon={Python} />
 					</div>
-					<h2 className="text-2xl font-bold text-mauve">contact</h2>
+					<h2 className="text-2xl text-mauve">contact</h2>
 					<div className="flex flex-wrap gap-2">
 						{contact.map(({ name, display, link, Icon, color }) => (
 							<Card
@@ -165,7 +165,7 @@ export default function Home() {
 				</section>
 			</div>
 			<hr />
-			<h2 className="text-2xl font-bold text-mauve">activity</h2>
+			<h2 className="text-2xl text-mauve">activity</h2>
 			<Suspense fallback={<SuspenseFallback />}>
 				<DiscordStatus />
 			</Suspense>

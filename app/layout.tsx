@@ -1,11 +1,11 @@
 import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
-import { Doto } from "next/font/google";
+import { Doto, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Footer from "./footer";
 import Nav from "./nav";
-const sans = Doto({ variable: "--font-sans", subsets: ["latin"] });
+const sans = IBM_Plex_Mono({ variable: "--font-sans", subsets: ["latin"],weight: "400" });
 export const metadata: Metadata = {
 	title: { default: "tgt", template: "%s - tgt" },
 	description: "my personal portfolio",
