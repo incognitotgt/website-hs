@@ -120,7 +120,7 @@ export default function Home() {
 						<li>msa board member</li>
 						<li>state student council + county student council</li>
 						<li>t&f - long distance</li>
-						<li>planning to major in computer engineering, cybersecurity, and/or sharia</li>
+						<li>planning to major in islamic studies + computer science</li>
 					</ul>
 					<h2 className="text-2xl font-bold text-mauve">projects</h2>
 					<div className="flex flex-wrap gap-2">

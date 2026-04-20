@@ -1,0 +1,63 @@
+---
+title: Lightspeed Classroom CVE-2026-30368 - Weak Authentication Allowing Unauthorized Remote Control of Student Devices
+date: 2026-04-20
+---
+
+**A vulnerability in Lightspeed Classroom, a browser extension installed on school-issued devices worldwide, allows an outside attacker to take control of a student’s device in real time. Three months after being reported to the company by high school freshmen, it remains unfixed.**
+
+---
+
+## Introduction
+
+Lightspeed Classroom is a widely used classroom management tool provisioned to over 23 million student devices and, according to their website, used by 28 of the top 50 school districts in the United States. It is used by educators to monitor student activity, open websites, close tabs, send messages, and control the websites they visit. 
+
+---
+
+## Impact
+
+An attacker with no connection to a school, no credentials, and no physical access to a device can:
+
+- **View student screens** **in real time**
+- **Lock a student’s screen** during class, during an exam, at any time
+- **Force any website to open** on a student’s device
+- **Close tabs and disrupt browsing** on a student’s device
+- **Send messages and notifications** directly to students
+
+---
+
+## What Does an Attacker Need?
+
+The only info an attacker needs it their target’s school email address, and a customer ID issued to their school district by Lightspeed, neither of which are hard to obtain.
+
+---
+
+## How Did This Happen?
+
+Lightspeed built the software assuming that a serious attack would never happen. The checks that verify whether a user is who they claim to be happen on the user’s own device, meaning they can be bypassed entirely. There is effectively no secure authentication. The company also relied on making their code painful to read as a substitute for actual security, a practice known as security through obscurity which is widely regarded as unsafe on its own.
+
+---
+
+## Mitigation Status
+
+The vulnerability was discovered and responsibly reported to Lightspeed by us in late January of 2026. Shortly after, Lightspeed filed a DMCA takedown to remove our original disclosure, despite it containing no copyrighted code or materials belonging to Lightspeed.
+
+As of April 20th, 2026, no patch has been released. The vulnerability is still active.
+
+---
+
+## What Should Schools Do?
+
+Schools and districts using Lightspeed Classroom or other Lightspeed products should:
+
+- Monitor student devices for any unauthorized activity
+- Listen seriously to reports from students about any unexpected behavior on their devices
+- Demand a timeline from Lightspeed for a fix
+- Evaluate whether continued use of Lightspeed products is appropriate until the issue is resolved
+
+---
+
+## Credit
+
+Discovered and documented by [**truekas](https://github.com/truekas)** and [**incognitotgt**](https://incognitotgt.me).
+
+*This report intentionally omits technical details that could be used to reproduce the attack. Researchers confirmed the vulnerability through controlled testing on personal devices. A recorded demonstration is available to credentialed journalists and security professionals upon request.*
