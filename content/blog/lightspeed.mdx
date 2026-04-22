@@ -472,6 +472,14 @@ As of April 20th, 2026, a patch for the issue has not been pushed, and everythin
 
 Lightspeed Classroom can be run outside of a browser by an unauthorized actor by bypassing validation checks by manipulating the WebAssembly runtime inside of the service worker. This leads to them being able to obtain authorization tokens for any user from any district that uses Lightspeed Classroom, and in turn, being able to perform actions on student devices that are normally reserved for teachers or administrators for usage to manage student browsing. The attacker does not need any info except for the email and customer ID of their target.
 
+# Demo video
+
+<div className="flex justify-center items-center">
+    <video controls width="75%">
+        <source src="/ls-video.mp4" type="video/mp4" />
+    </video>
+</div>
+    
 # Conclusion and Final Notes
 
 This vulnerability demonstrates that obfuscation and client-side enforcement are insufficient safeguards for systems that exercise real control over user devices. When authentication tokens and authorization decisions can be from an emulated environment, trust boundaries collapse.
